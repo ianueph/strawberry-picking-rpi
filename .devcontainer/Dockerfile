@@ -18,7 +18,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y python3-pip
-run apt install ros-jazzy-rviz2 -y
 ENV SHELL /bin/bash
 
 # ********************************************************
@@ -26,5 +25,10 @@ ENV SHELL /bin/bash
 # ********************************************************
 
 # [Optional] Set the default user. Omit if you want to keep the default as root.
+
+# x11-apps for X11 Debugging
+RUN apt install ros-jazzy-rviz2 -y
+RUN apt install x11-apps -y
+
 USER $USERNAME
 CMD ["/bin/bash"]
