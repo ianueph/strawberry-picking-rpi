@@ -35,6 +35,10 @@
         <color rgba="${136/255} ${139/255} ${141/255} 1.0"/>
     </material>
 
+    <material name="black_plastic">
+        <color rgba="${15/255} ${15/255} ${19/255} 1.0"/>
+    </material>
+
     <!-- the base link is the plank where the robot sits on -->
     <link name="base_link">
         <visual name="base_link">
@@ -122,8 +126,8 @@
     <xacro:multi_functional_servo_bracket_with_servo prefix="1" is_reversed="false"> 
         <origin xyz="
         0.0 
-        ${multi_functional_servo_bracket_with_servo_y_size/2} 
-        0.011"
+        ${multi_functional_servo_bracket_with_servo_y_size/2+0.0008} 
+        0.01"
         rpy="
         0.0
         0.0
@@ -173,9 +177,9 @@
     </xacro:long_u_type_servo_bracket>
     <xacro:multi_functional_servo_bracket_with_servo prefix="2" is_reversed="true"> 
         <origin xyz="
-        0.001
-        ${-multi_functional_servo_bracket_with_servo_y_size/2} 
-        0.0105"
+        0.0
+        ${-multi_functional_servo_bracket_with_servo_y_size/2-0.0015} 
+        0.009"
         rpy="
         0.0
         0.0
@@ -250,8 +254,8 @@
     <xacro:multi_functional_servo_bracket_with_servo prefix="3" is_reversed="true"> 
         <origin xyz="
         0.0095
-        -0.0015
-        ${-multi_functional_servo_bracket_with_servo_y_size}" 
+        0.0
+        ${-multi_functional_servo_bracket_with_servo_y_size-0.003}" 
         rpy="
         0.0
         0.0
@@ -317,4 +321,58 @@
             <child link="4_long_u_type_servo_bracket"/>
         </joint>
     </xacro:long_u_type_servo_bracket>
+
+    <!-- the next block will define the fourth segment of the robotic arm -->
+    <xacro:multi_functional_servo_bracket_with_servo prefix="4" is_reversed="false"> 
+        <origin xyz="
+        0.0095
+        0.0
+        ${-multi_functional_servo_bracket_with_servo_y_size}" 
+        rpy="
+        0.0
+        0.0
+        0.0"
+        />
+        <joint name="4_multi_functional_servo_bracket_with_servo_to_4_long_u_type_servo_bracket" type="revolute">
+            <origin xyz="
+            ${-long_u_type_servo_bracket_y_size}
+            ${-long_u_type_servo_bracket_x_size+0.0025}
+            ${0.002}" 
+            rpy="
+            ${pi}
+            ${pi/2}
+            0.0"
+            />
+            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <axis xyz="0.0 0.0 1"/>
+            <parent link="4_long_u_type_servo_bracket"/>
+            <child link="4_multi_functional_servo_bracket_with_servo"/>
+        </joint>
+    </xacro:multi_functional_servo_bracket_with_servo>
+    <xacro:multi_functional_servo_bracket_with_servo prefix="5" is_reversed="true"> 
+        <origin xyz="
+        0.007
+        ${multi_functional_servo_bracket_with_servo_y_size/2}
+        0.0" 
+        rpy="
+        ${pi}
+        ${-pi/2}
+        0.0"
+        />
+        <joint name="5_multi_functional_servo_bracket_with_servo_to_4_multi_functional_servo_bracket_with_servo" type="fixed">
+            <origin xyz="
+            ${multi_functional_servo_bracket_with_servo_z_size/2-0.004}
+            ${multi_functional_servo_bracket_with_servo_y_size/2}
+            ${-multi_functional_servo_bracket_with_servo_z_size/2+0.003}" 
+            rpy="
+            0.0
+            0.0
+            0.0"
+            />
+            <parent link="4_multi_functional_servo_bracket_with_servo"/>
+            <child link="5_multi_functional_servo_bracket_with_servo"/>
+        </joint>
+    </xacro:multi_functional_servo_bracket_with_servo>
+
+
 </robot>

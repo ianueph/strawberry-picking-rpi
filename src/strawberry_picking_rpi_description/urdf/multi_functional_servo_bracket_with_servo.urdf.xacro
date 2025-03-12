@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="multi_functional_servo_bracket_with_servo">
-    <xacro:macro name="multi_functional_servo_bracket_with_servo" params="prefix is_reversed:='false' *bracket_origin *joint">
-        <xacro:property name="reversed_servo">
-            <mesh filename="package://strawberry_picking_rpi_description/meshes/multi_functional_servo_bracket_with_servo_reverse.stl" scale="0.001 0.001 0.001"/>
-        </xacro:property>
-        <xacro:property name="normal_servo">
-            <mesh filename="package://strawberry_picking_rpi_description/meshes/multi_functional_servo_bracket_with_servo.stl" scale="0.001 0.001 0.001"/>
-        </xacro:property>
+    <xacro:property name="servo">
+        <mesh filename="package://strawberry_picking_rpi_description/meshes/mg996r_servo.stl" scale="0.001 0.001 0.001"/>
+    </xacro:property>
+    <xacro:property name="servo_reversed">
+        <mesh filename="package://strawberry_picking_rpi_description/meshes/mg996r_servo_reversed.stl" scale="0.001 0.001 0.001"/>
+    </xacro:property>
 
+    <xacro:macro name="multi_functional_servo_bracket_with_servo" params="prefix is_reversed:='false' *bracket_origin *joint">
         <link name="${prefix}_multi_functional_servo_bracket_with_servo">
             <inertial>
                 <xacro:insert_block name="bracket_origin"/>
@@ -17,12 +17,7 @@
             <visual name="">
                 <xacro:insert_block name="bracket_origin"/>
                 <geometry>
-                    <xacro:if value="${is_reversed == 'true'}">
-                        <xacro:insert_block name="reversed_servo"/>
-                    </xacro:if>
-                    <xacro:if value="${is_reversed == 'false'}">
-                        <xacro:insert_block name="normal_servo"/>
-                    </xacro:if>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/multi_functional_servo_bracket.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
                 <material name="aluminum"/> 
             </visual>
@@ -37,6 +32,28 @@
             </collision>
         </link>
 
+        <link name="${prefix}_servo">
+            <visual>
+                <xacro:insert_block name="bracket_origin"/>
+                <geometry>
+                    <xacro:if value="${is_reversed == 'true'}">
+                        <xacro:insert_block name="servo_reversed"/>
+                    </xacro:if>
+                    <xacro:if value="${is_reversed == 'false'}">
+                        <xacro:insert_block name="servo"/>
+                    </xacro:if>
+                </geometry>
+                <material name="black_plastic"/> 
+            </visual>
+        </link>
+
+        <joint name="${prefix}_servo_to_${prefix}_multi_functional_servo_bracket_with_servo" type="fixed">
+            <parent link="${prefix}_multi_functional_servo_bracket_with_servo"/>
+            <child link="${prefix}_servo"/>
+        </joint>
+        
         <xacro:insert_block name="joint"/>
+
+
     </xacro:macro>
 </robot>
