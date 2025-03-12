@@ -240,6 +240,8 @@
             <child link="3_long_u_type_servo_bracket"/>
         </joint>
     </xacro:long_u_type_servo_bracket>
+
+    <!-- the next blocks will define the third segment of the robotic arm -->
     <xacro:multi_functional_servo_bracket_with_servo prefix="3" is_reversed="true"> 
         <origin xyz="
         0.0095
