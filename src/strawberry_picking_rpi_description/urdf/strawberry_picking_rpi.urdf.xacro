@@ -13,7 +13,7 @@
             </geometry>
         </visual>
         <collision>
-            <box size="$(base_x_size) $(base_y_size) $(base_z_size)"/>
+            <box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
         </collision>
     </link>
 </robot>
