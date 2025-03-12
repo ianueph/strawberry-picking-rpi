@@ -116,13 +116,13 @@
     </xacro:u_type_robot_waist_bracket>
     <xacro:multi_functional_servo_bracket_with_servo prefix="1" is_reversed="false"> 
         <origin xyz="
-        0.0
-        0.0
-        0.0" 
+        0.0 
+        ${multi_functional_servo_bracket_with_servo_y_size/2} 
+        0.011"
         rpy="
         0.0
         0.0
-        0.0"
+        ${pi}"
         />
         <joint name="1_multi_functional_servo_bracket_with_servo_to_3_u_type_robot_waist_bracket" type="fixed">
             <origin xyz="
@@ -142,8 +142,8 @@
     <!-- the next blocks will define the second segment of the robotic arm -->
     <xacro:long_u_type_servo_bracket prefix="1"> 
         <origin xyz="
-        ${-long_u_type_servo_bracket_z_size+0.012}
-        ${-long_u_type_servo_bracket_y_size/2+0.002}
+        ${-long_u_type_servo_bracket_z_size+0.0125}
+        ${-long_u_type_servo_bracket_y_size/2+0.0025}
         ${-long_u_type_servo_bracket_x_size/2+0.002}" 
         rpy="
         0.0
@@ -152,9 +152,9 @@
         />
         <joint name="1_long_u_type_servo_bracket_to_1_multi_functional_servo_bracket_with_servo" type="revolute">
             <origin xyz="
-            0.010
-            ${multi_functional_servo_bracket_with_servo_y_size/2}
-            ${multi_functional_servo_bracket_with_servo_z_size-0.013}" 
+            0.0095
+            ${multi_functional_servo_bracket_with_servo_y_size/2+0.0015}
+            ${multi_functional_servo_bracket_with_servo_z_size-0.014}" 
             rpy="
             0.0 
             0.0
@@ -168,9 +168,9 @@
     </xacro:long_u_type_servo_bracket>
     <xacro:multi_functional_servo_bracket_with_servo prefix="2" is_reversed="true"> 
         <origin xyz="
-        0.0
-        0.0
-        0.0" 
+        0.001
+        ${-multi_functional_servo_bracket_with_servo_y_size/2} 
+        0.0105"
         rpy="
         0.0
         0.0
@@ -190,6 +190,81 @@
             <child link="2_multi_functional_servo_bracket_with_servo"/>
         </joint>
     </xacro:multi_functional_servo_bracket_with_servo>
-    
+    <xacro:long_u_type_servo_bracket prefix="2"> 
+        <origin xyz="
+        ${-long_u_type_servo_bracket_z_size+0.0125}
+        ${-long_u_type_servo_bracket_y_size/2+0.0025}
+        ${-long_u_type_servo_bracket_x_size/2+0.001}" 
+        rpy="
+        0.0
+        ${pi/2}
+        0.0"
+        />
+        <joint name="2_long_u_type_servo_bracket_to_2_multi_functional_servo_bracket_with_servo" type="revolute">
+            <origin xyz="
+            0.0095
+            ${-multi_functional_servo_bracket_with_servo_y_size/2-0.0015}
+            ${multi_functional_servo_bracket_with_servo_z_size-0.014}" 
+            rpy="
+            0.0 
+            0.0
+            0.0"
+            />
+            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <axis xyz="0.0 0.0 1"/>
+            <parent link="2_multi_functional_servo_bracket_with_servo"/>
+            <child link="2_long_u_type_servo_bracket"/>
+        </joint>
+    </xacro:long_u_type_servo_bracket>
+    <xacro:long_u_type_servo_bracket prefix="3"> 
+        <origin xyz="
+        ${-long_u_type_servo_bracket_z_size+0.012}
+        ${-long_u_type_servo_bracket_y_size/2+0.002}
+        ${-long_u_type_servo_bracket_x_size/2+0.002}" 
+        rpy="
+        0.0
+        ${-pi/2}
+        0.0"
+        />
+        <joint name="3_long_u_type_servo_bracket_to_2_long_u_type_servo_bracket" type="fixed">
+            <origin xyz="
+            0.0
+            0.0
+            0.0" 
+            rpy="
+            0.0 
+            0.0
+            0.0"
+            />
+            <parent link="2_long_u_type_servo_bracket"/>
+            <child link="3_long_u_type_servo_bracket"/>
+        </joint>
+    </xacro:long_u_type_servo_bracket>
+    <xacro:multi_functional_servo_bracket_with_servo prefix="3" is_reversed="true"> 
+        <origin xyz="
+        0.0095
+        -0.0015
+        ${-multi_functional_servo_bracket_with_servo_y_size}" 
+        rpy="
+        0.0
+        0.0
+        ${pi}"
+        />
+        <joint name="3_multi_functional_servo_bracket_with_servo_to_3_long_u_type_servo_bracket" type="revolute">
+            <origin xyz="
+            ${-long_u_type_servo_bracket_x_size*2+0.0045}
+            0.0
+            0.0" 
+            rpy="
+            0.0
+            0.0
+            ${pi}"
+            />
+            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <axis xyz="0.0 0.0 1"/>
+            <parent link="3_long_u_type_servo_bracket"/>
+            <child link="3_multi_functional_servo_bracket_with_servo"/>
+        </joint>
+    </xacro:multi_functional_servo_bracket_with_servo>
 
 </robot>
