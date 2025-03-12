@@ -28,6 +28,7 @@ ENV SHELL /bin/bash
 
 # x11-apps for X11 Debugging
 RUN apt install ros-jazzy-rviz2 -y
+RUN apt install ros-jazzy-xacro -y
 RUN apt install x11-apps -y
 
 USER $USERNAME

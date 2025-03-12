@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<robot name="strawberry_picking_rpi" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="base_x_size" value="0.088" />
+    <xacro:property name="base_y_size" value="0.090" />
+    <xacro:property name="base_z_size" value="0.028" />
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://strawberry_picking_rpi_description/meshes/u_type_robot_waist_bracket.stl" scale="1.0"/>
+            </geometry>
+        </visual>
+    </link>
+</robot>
