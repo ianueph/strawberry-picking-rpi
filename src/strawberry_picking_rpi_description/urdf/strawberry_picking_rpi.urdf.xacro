@@ -17,9 +17,14 @@
     <xacro:property name="long_u_type_servo_bracket_y_size" value="0.025"/>
     <xacro:property name="long_u_type_servo_bracket_z_size" value="0.065"/>
 
+    <xacro:property name="l_type_servo_bracket_x_size" value="0.037"/>
+    <xacro:property name="l_type_servo_bracket_y_size" value="0.025"/>
+    <xacro:property name="l_type_servo_bracket_z_size" value="0.025"/>
+
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/u_type_robot_waist_bracket.urdf.xacro"/>
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/multi_functional_servo_bracket_with_servo.urdf.xacro"/>
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/long_u_type_servo_bracket.urdf.xacro"/>
+    <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/l_type_servo_bracket.urdf.xacro"/>
     
     <material name="wood">
         <color rgba="${164/255} ${116/255} ${73/255} 1.0"/>
@@ -268,5 +273,48 @@
             <child link="3_multi_functional_servo_bracket_with_servo"/>
         </joint>
     </xacro:multi_functional_servo_bracket_with_servo>
-
+    <xacro:l_type_servo_bracket prefix="1" parent_link="3_multi_functional_servo_bracket_with_servo">
+        <origin xyz="
+        0.0
+        -0.0062
+        ${l_type_servo_bracket_z_size/2-0.002}" 
+        rpy="
+        0.0
+        0.0
+        0.0"
+        />
+        <origin xyz="
+        0.0205
+        ${-multi_functional_servo_bracket_with_servo_y_size/2-0.001}
+        ${-multi_functional_servo_bracket_with_servo_z_size/2}" 
+        rpy="
+        ${3*pi/2} 
+        ${pi/2}
+        0.0"
+        />
+    </xacro:l_type_servo_bracket>
+    <xacro:long_u_type_servo_bracket prefix="4"> 
+        <origin xyz="
+        0.0
+        0.0
+        ${-long_u_type_servo_bracket_y_size/2+0.0045}" 
+        rpy="
+        ${pi/2}
+        0.0
+        0.0"
+        />
+        <joint name="4_long_u_type_servo_bracket_to_1_l_type_servo_bracket" type="fixed">
+            <origin xyz="
+            0.0
+            ${-l_type_servo_bracket_y_size}
+            ${l_type_servo_bracket_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            0.0"
+            />
+            <parent link="1_l_type_servo_bracket"/>
+            <child link="4_long_u_type_servo_bracket"/>
+        </joint>
+    </xacro:long_u_type_servo_bracket>
 </robot>
