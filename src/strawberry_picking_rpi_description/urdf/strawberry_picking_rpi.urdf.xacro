@@ -12,6 +12,7 @@
     <xacro:property name="multi_functional_servo_bracket_with_servo_x_size" value="0.057"/>
     <xacro:property name="multi_functional_servo_bracket_with_servo_y_size" value="0.025"/>
     <xacro:property name="multi_functional_servo_bracket_with_servo_z_size" value="0.050"/>
+    <xacro:property name="mg996r_velocity_6v" value="6.98133333333"/>
 
     <xacro:property name="long_u_type_servo_bracket_x_size" value="0.055"/>
     <xacro:property name="long_u_type_servo_bracket_y_size" value="0.025"/>
@@ -169,7 +170,7 @@
             0.0
             ${-pi}"
             />
-            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <limit lower="0" upper="${pi}" effort="1000" velocity="${mg996r_velocity_6v}"/>
             <axis xyz="0.0 0.0 1"/>
             <parent link="1_multi_functional_servo_bracket_with_servo"/>
             <child link="1_long_u_type_servo_bracket"/>
@@ -219,7 +220,7 @@
             0.0
             0.0"
             />
-            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <limit lower="0" upper="${pi}" effort="1000" velocity="${mg996r_velocity_6v}"/>
             <axis xyz="0.0 0.0 1"/>
             <parent link="2_multi_functional_servo_bracket_with_servo"/>
             <child link="2_long_u_type_servo_bracket"/>
@@ -271,7 +272,7 @@
             0.0
             ${pi/2}"
             />
-            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <limit lower="0" upper="${pi}" effort="1000" velocity="${mg996r_velocity_6v}"/>
             <axis xyz="0.0 0.0 1"/>
             <parent link="3_long_u_type_servo_bracket"/>
             <child link="3_multi_functional_servo_bracket_with_servo"/>
@@ -343,7 +344,7 @@
             ${pi/2}
             0.0"
             />
-            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <limit lower="0" upper="${pi}" effort="1000" velocity="${mg996r_velocity_6v}"/>
             <axis xyz="0.0 0.0 1"/>
             <parent link="4_long_u_type_servo_bracket"/>
             <child link="4_multi_functional_servo_bracket_with_servo"/>
