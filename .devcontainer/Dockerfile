@@ -26,9 +26,10 @@ ENV SHELL /bin/bash
 
 # [Optional] Set the default user. Omit if you want to keep the default as root.
 
-# x11-apps for X11 Debugging
+# for urdf designing and visualization
 RUN apt install ros-jazzy-rviz2 -y
 RUN apt install ros-jazzy-xacro -y
+# x11-apps for X11 Debugging
 RUN apt install x11-apps -y
 
 USER $USERNAME
