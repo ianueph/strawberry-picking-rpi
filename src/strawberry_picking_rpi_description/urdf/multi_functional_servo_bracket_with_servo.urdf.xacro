@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="multi_functional_servo_bracket_with_servo">
-    <xacro:macro name="multi_functional_servo_bracket_with_servo" params="prefix parent_link *bracket_origin *joint_origin">
+    <xacro:macro name="multi_functional_servo_bracket_with_servo" params="prefix *bracket_origin *joint">
         <link name="${prefix}_multi_functional_servo_bracket_with_servo">
             <inertial>
                 <xacro:insert_block name="bracket_origin"/>
@@ -33,10 +33,6 @@
             </collision>
         </link>
 
-        <joint name="${prefix}_multi_functional_servo_bracket_with_servo_to_${parent_link}" type="fixed">
-            <xacro:insert_block name="joint_origin"/>
-            <parent link="${parent_link}"/>
-            <child link="${prefix}_multi_functional_servo_bracket_with_servo"/>
-        </joint>
+        <xacro:insert_block name="joint"/>
     </xacro:macro>
 </robot>
