@@ -13,8 +13,13 @@
     <xacro:property name="multi_functional_servo_bracket_with_servo_y_size" value="0.025"/>
     <xacro:property name="multi_functional_servo_bracket_with_servo_z_size" value="0.050"/>
 
+    <xacro:property name="long_u_type_servo_bracket_x_size" value="0.055"/>
+    <xacro:property name="long_u_type_servo_bracket_y_size" value="0.025"/>
+    <xacro:property name="long_u_type_servo_bracket_z_size" value="0.065"/>
+
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/u_type_robot_waist_bracket.urdf.xacro"/>
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/multi_functional_servo_bracket_with_servo.urdf.xacro"/>
+    <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/long_u_type_servo_bracket.urdf.xacro"/>
     
     <material name="wood">
         <color rgba="${164/255} ${116/255} ${73/255} 1.0"/>
@@ -109,7 +114,7 @@
         0.0"
         />
     </xacro:u_type_robot_waist_bracket>
-    <xacro:multi_functional_servo_bracket_with_servo prefix="1" parent_link="3_u_type_robot_waist_bracket"> 
+    <xacro:multi_functional_servo_bracket_with_servo prefix="1"> 
         <origin xyz="
         0.0
         0.0
@@ -119,15 +124,46 @@
         0.0
         0.0"
         />
-        <origin xyz="
-        0.0
-        ${-u_type_robot_waist_bracket_z_size/2}
-        0.03025" 
-        rpy="
-        0.0 
-        0.0
-        ${pi}"
-        />
+        <joint name="1_multi_functional_servo_bracket_with_servo_to_3_u_type_robot_waist_bracket" type="fixed">
+            <origin xyz="
+            0.0
+            ${-u_type_robot_waist_bracket_z_size/2}
+            0.03025" 
+            rpy="
+            0.0 
+            0.0
+            ${pi}"
+            />
+            <parent link="3_u_type_robot_waist_bracket"/>
+            <child link="1_multi_functional_servo_bracket_with_servo"/>
+        </joint>
     </xacro:multi_functional_servo_bracket_with_servo>
 
+    <!-- the next blocks will define the second segment of the robotic arm -->
+    <xacro:long_u_type_servo_bracket prefix="1"> 
+        <origin xyz="
+        ${-long_u_type_servo_bracket_z_size+0.012}
+        ${-long_u_type_servo_bracket_y_size/2+0.002}
+        ${-long_u_type_servo_bracket_x_size/2+0.004}" 
+        rpy="
+        0.0
+        ${pi/2}
+        0.0"
+        />
+        <joint name="1_long_u_type_servo_bracket_to_1_multi_functional_servo_bracket_with_servo" type="revolute">
+            <origin xyz="
+            0.010
+            ${multi_functional_servo_bracket_with_servo_y_size/2}
+            ${multi_functional_servo_bracket_with_servo_z_size-0.013}" 
+            rpy="
+            0.0 
+            0.0
+            ${-pi}"
+            />
+            <limit lower="0" upper="${pi}" effort="1000" velocity="1.0"/>
+            <axis xyz="0.0 0.0 1"/>
+            <parent link="1_multi_functional_servo_bracket_with_servo"/>
+            <child link="1_long_u_type_servo_bracket"/>
+        </joint>
+    </xacro:long_u_type_servo_bracket>
 </robot>
