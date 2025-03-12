@@ -27,28 +27,7 @@
                 <material name="aluminum"/> 
             </visual>
             <collision>
-                <xacro:if value="${is_reversed == 'true'}">
-                    <origin xyz="
-                    0.0 
-                    ${-multi_functional_servo_bracket_with_servo_y_size/2} 
-                    0.011" 
-                    rpy="
-                    0.0
-                    0.0
-                    0.0"
-                    />
-                </xacro:if>
-                <xacro:if value="${is_reversed == 'false'}">
-                    <origin xyz="
-                    0.0 
-                    ${multi_functional_servo_bracket_with_servo_y_size/2} 
-                    0.011" 
-                    rpy="
-                    0.0
-                    0.0
-                    0.0"
-                    />
-                </xacro:if>
+                <xacro:insert_block name="bracket_origin"/>
                 <geometry>
                     <box size="${multi_functional_servo_bracket_with_servo_x_size} 
                                ${multi_functional_servo_bracket_with_servo_y_size} 
