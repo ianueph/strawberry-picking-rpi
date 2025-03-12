@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="long_u_type_servo_bracket">
+    <xacro:macro name="long_u_type_servo_bracket" params="prefix *bracket_origin *joint">
+        <link name="${prefix}_long_u_type_servo_bracket">
+            <inertial>
+                <xacro:insert_block name="bracket_origin"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual name="">
+                <xacro:insert_block name="bracket_origin"/>
+                <geometry>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/long_u_type_servo_bracket.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="aluminum"/> 
+            </visual>
+            <collision>
+                <xacro:insert_block name="bracket_origin"/>
+                <geometry>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/primitives/long_u_type_servo_bracket_primitive.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <xacro:insert_block name="joint"/>
+    </xacro:macro>
+</robot>
