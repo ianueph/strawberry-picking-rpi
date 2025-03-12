@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="strawberry_picking_rpi">
     <!-- based on 2x2 plank measurements 1.5in x 1.5in x 1.5in -->
-    <xacro:property name="base_x_size" value="0.0381"/>
-    <xacro:property name="base_y_size" value="0.0381"/>
+    <xacro:property name="base_x_size" value="0.25"/>
+    <xacro:property name="base_y_size" value="1"/>
     <xacro:property name="base_z_size" value="0.0381"/>
 
     <xacro:property name="u_type_robot_waist_bracket_x_size" value="0.090"/>
@@ -19,15 +19,10 @@
 
     <material name="aluminum">
         <color rgba="${136/255} ${139/255} ${141/255} 1.0"/>
-        <texture filename="file_path"/>
     </material>
 
+    <!-- the base link is the plank where the robot sits on -->
     <link name="base_link">
-        <inertial>
-            <origin xyz="0.0 0.0 ${u_type_robot_waist_bracket_z_size/2}" rpy="0.0 0.0 0.0"/>
-            <mass value="0.0"/>
-            <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
-        </inertial>
         <visual name="base_link">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
@@ -49,17 +44,66 @@
         </collision>
     </link>
 
-    <xacro:u_type_robot_waist_bracket prefix="01" parent_link="base_link"> 
-        <origin xyz=
-        "0.0
+    <!-- these blocks define the base of the robotic arm -->
+    <xacro:u_type_robot_waist_bracket prefix="1" parent_link="base_link"> 
+        <origin xyz="
         0.0
-        0.0" 
-                rpy=
-        "0.0 
+        ${u_type_robot_waist_bracket_y_size/2}
+        ${u_type_robot_waist_bracket_z_size/2}" 
+        rpy="
+        0.0 
         0.0
         0.0"
         />
-        <origin xyz="0.0 0.0 ${base_z_size/2}" rpy="0.0 0.0 0.0"/>
+        <origin xyz="
+        0.0
+        0.0
+        ${base_z_size/2}" 
+        rpy="
+        0.0 
+        0.0
+        0.0"
+        />
+    </xacro:u_type_robot_waist_bracket>
+    <xacro:u_type_robot_waist_bracket prefix="2" parent_link="1_u_type_robot_waist_bracket"> 
+        <origin xyz="
+        0.0
+        ${-u_type_robot_waist_bracket_y_size/2}
+        ${u_type_robot_waist_bracket_z_size/2}" 
+        rpy="
+        0.0 
+        0.0
+        ${pi}"
+        />
+        <origin xyz="
+        0.0
+        0.0
+        0.0" 
+        rpy="
+        0.0 
+        0.0
+        0.0"
+        />
+    </xacro:u_type_robot_waist_bracket>
+    <xacro:u_type_robot_waist_bracket prefix="3" parent_link="1_u_type_robot_waist_bracket"> 
+        <origin xyz="
+        0.0
+        0.03025
+        ${u_type_robot_waist_bracket_z_size+u_type_robot_waist_bracket_y_size/2}" 
+        rpy="
+        ${pi/2}
+        0.0
+        0.0"
+        />
+        <origin xyz="
+        0.0
+        0.0
+        0.0" 
+        rpy="
+        0.0 
+        0.0
+        0.0"
+        />
     </xacro:u_type_robot_waist_bracket>
 
 </robot>
