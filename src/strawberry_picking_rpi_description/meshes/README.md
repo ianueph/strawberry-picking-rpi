@@ -1,0 +1,1 @@
+## All meshes courtesy of automaticaddison.com[https://automaticaddison.com/how-to-build-a-diy-aluminium-6-dof-robotic-arm-from-scratch/] 
