@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="l_type_servo_bracket">
+    <xacro:macro name="l_type_servo_bracket" params="prefix parent_link *bracket_origin *joint_origin">
+        <link name="${prefix}_l_type_servo_bracket">
+            <inertial>
+                <xacro:insert_block name="bracket_origin"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual name="">
+                <xacro:insert_block name="bracket_origin"/>
+                <geometry>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/l_type_servo_bracket.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="aluminum"/> 
+            </visual>
+        </link>
+
+        <joint name="${prefix}_l_type_servo_bracket_link_to_${parent_link}" type="fixed">
+            <xacro:insert_block name="joint_origin"/>
+            <parent link="${parent_link}"/>
+            <child link="${prefix}_l_type_servo_bracket"/>
+        </joint>
+    </xacro:macro>
+</robot>
