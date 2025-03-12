@@ -7,9 +7,13 @@
 
     <link name="base_link">
         <visual>
+            <origin xyz=" 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
                 <mesh filename="package://strawberry_picking_rpi_description/meshes/u_type_robot_waist_bracket.stl" scale="1.0"/>
             </geometry>
         </visual>
+        <collision>
+            <box size="$(base_x_size) $(base_y_size) $(base_z_size)"/>
+        </collision>
     </link>
 </robot>
