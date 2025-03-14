@@ -227,6 +227,12 @@
                 </geometry>
                 <material name="aluminum"/>
             </visual>
+            <collision>
+                <origin xyz="0.0275 -0.0095 0.0" rpy="${pi/2} ${pi} ${-pi/2}"/>
+                <geometry>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/mg996r_servo_reversed.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
         </link>
         <joint name="gripper_servo_to_gripper_base" type="fixed">
             <parent link="gripper_base"/>
