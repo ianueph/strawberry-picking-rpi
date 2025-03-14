@@ -13,7 +13,7 @@
     <xacro:property name="multi_functional_servo_bracket_with_servo_y_size" value="0.025"/>
     <xacro:property name="multi_functional_servo_bracket_with_servo_z_size" value="0.050"/>
     <xacro:property name="mg996r_velocity_6v" value="6.98133333333"/>
-    <xacro:property name="mg996r_velocity_4.8v" value="5.51157894737"/>
+    <xacro:property name="mg996r_velocity_4dot8v" value="5.51157894737"/>
 
     <xacro:property name="long_u_type_servo_bracket_x_size" value="0.055"/>
     <xacro:property name="long_u_type_servo_bracket_y_size" value="0.025"/>
