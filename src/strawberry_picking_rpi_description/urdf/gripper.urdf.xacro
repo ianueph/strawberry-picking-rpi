@@ -36,7 +36,7 @@
                 <material name="aluminum"/>
             </visual>
         </link>
-        <joint name="gripper_palm_to_finger_large_lo_to_gripper_base" type="revolute">
+        <joint name="GRIPPER" type="revolute">
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_large_lo"/>
             <axis xyz="1 0 0"/>
@@ -61,7 +61,7 @@
         <joint name="gripper_palm_to_finger_large_to_gripper_base" type="revolute">
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_large"/>
-            <mimic joint="gripper_palm_to_finger_large_lo_to_gripper_base" multiplier="-1"/>
+            <mimic joint="GRIPPER" multiplier="-1"/>
             <axis xyz="1 0 0"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.0 0.012 0.03" rpy="0 0 0"/>
@@ -85,7 +85,7 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_left_over"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="gripper_palm_to_finger_large_lo_to_gripper_base" multiplier="-1"/>
+            <mimic joint="GRIPPER" multiplier="-1"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.0 0.0068 0.052" rpy="0 0 0"/>
         </joint>
@@ -107,7 +107,7 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_left_under"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="gripper_palm_to_finger_large_lo_to_gripper_base" multiplier="-1"/>
+            <mimic joint="GRIPPER" multiplier="-1"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.004 0.0068 0.052" rpy="0 0 0"/>
         </joint>
@@ -130,7 +130,7 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_right_over"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="gripper_palm_to_finger_large_lo_to_gripper_base"/>
+            <mimic joint="GRIPPER"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.0 -0.0068 0.052" rpy="0 0 0"/>
         </joint>
@@ -152,7 +152,7 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_right_under"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="gripper_palm_to_finger_large_lo_to_gripper_base"/>
+            <mimic joint="GRIPPER"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.004 -0.0068 0.052" rpy="0 0 0"/>
         </joint>

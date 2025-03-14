@@ -160,7 +160,7 @@
         ${pi/2}
         0.0"
         />
-        <joint name="1_long_u_type_servo_bracket_to_1_multi_functional_servo_bracket_with_servo" type="revolute">
+        <joint name="DOF_1" type="revolute">
             <origin xyz="
             0.0095
             ${multi_functional_servo_bracket_with_servo_y_size/2+0.0015}
@@ -210,7 +210,7 @@
         ${pi/2}
         0.0"
         />
-        <joint name="2_long_u_type_servo_bracket_to_2_multi_functional_servo_bracket_with_servo" type="revolute">
+        <joint name="DOF_2" type="revolute">
             <origin xyz="
             0.0095
             ${-multi_functional_servo_bracket_with_servo_y_size/2-0.0015}
@@ -262,7 +262,7 @@
         0.0
         ${pi}"
         />
-        <joint name="3_multi_functional_servo_bracket_with_servo_to_3_long_u_type_servo_bracket" type="revolute">
+        <joint name="DOF_3" type="revolute">
             <origin xyz="
             ${-long_u_type_servo_bracket_x_size*2+0.0045}
             0.0
@@ -334,7 +334,7 @@
         0.0
         0.0"
         />
-        <joint name="4_multi_functional_servo_bracket_with_servo_to_4_long_u_type_servo_bracket" type="revolute">
+        <joint name="DOF_4" type="revolute">
             <origin xyz="
             ${-long_u_type_servo_bracket_y_size}
             ${-long_u_type_servo_bracket_x_size+0.0025}
@@ -375,7 +375,7 @@
         </joint>
     </xacro:multi_functional_servo_bracket_with_servo>
     <xacro:gripper prefix="1"> 
-        <joint name="gripper_base_to_5_multi_functional_servo_bracket_with_servo" type="revolute">
+        <joint name="DOF_5" type="revolute">
             <parent link="5_multi_functional_servo_bracket_with_servo"/>
             <child link="gripper_base"/>
             <origin xyz="0.034 0.012 0.01" rpy="${pi/2} 0.0 ${pi/2}"/>
