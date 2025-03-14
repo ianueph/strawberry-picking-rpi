@@ -3,6 +3,9 @@ build/*
 install/*
 log/*
 
+# pycache folder from launch
+*.pyc
+
 # Uncomment the following to avoid pushing personal configurations
 .vscode/
 
