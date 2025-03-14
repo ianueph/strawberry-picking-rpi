@@ -375,7 +375,4 @@
             <child link="5_multi_functional_servo_bracket_with_servo"/>
         </joint>
     </xacro:multi_functional_servo_bracket_with_servo>
-
-    
-
 </robot>
