@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="gripper">
-    <xacro:macro name="gripper" params="prefix">
+    <xacro:macro name="gripper" params="prefix *joint">
         <link name="gripper_base">
             <inertial>
                 <origin xyz="-0.00075 -0.037 0.03" rpy="0.0 ${pi/2} 0.0"/>
@@ -233,8 +233,7 @@
             <child link="gripper_servo"/>
             <origin xyz="0.002 -0.015 0.0305" rpy="0.0 0 0"/>
         </joint>
+
+        <xacro:insert_block name="joint"/>
     </xacro:macro>
-    <xacro:gripper prefix="1">
-        
-    </xacro:gripper>
 </robot>
