@@ -33,7 +33,8 @@
         "--net=host",
         "--pid=host",
         "--ipc=host",
-        "--device=/dev/ttyACM0"
+        "--device=/dev/ttyACM0",
+        "--privileged"
     ],
     "mounts": [
        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
