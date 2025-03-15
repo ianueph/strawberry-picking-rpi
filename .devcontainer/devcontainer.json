@@ -32,7 +32,8 @@
     "runArgs": [
         "--net=host",
         "--pid=host",
-        "--ipc=host"
+        "--ipc=host",
+        "--device=/dev/ttyACM0"
     ],
     "mounts": [
        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
