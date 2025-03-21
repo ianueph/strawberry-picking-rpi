@@ -31,6 +31,11 @@ RUN apt install ros-jazzy-rviz2 -y
 RUN apt install ros-jazzy-xacro -y
 # x11-apps for X11 Debugging
 RUN apt install x11-apps -y
+# install libfreenect and dependencies
+# install manually since rosdep can't install it
+RUN apt install libusb-1.0-0-dev -y
+# give everyone access to /dev/ttyACM0
+RUN chmod 666 /dev/ttyACM0
 
 USER $USERNAME
 CMD ["/bin/bash"]
