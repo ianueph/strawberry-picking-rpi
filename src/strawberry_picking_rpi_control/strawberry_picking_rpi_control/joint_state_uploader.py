@@ -59,7 +59,7 @@ class JointStateUploader(Node):
             position = self.incoming_joint_state.position[i]
             if (name not in servo_joints):
                 continue
-            self.serial_msg[name] = int(position/math.pi*255)+1
+            self.serial_msg[name] = int(position/math.pi*180)
             
         self.outgoing_msg = json.dumps(self.serial_msg)
         self.is_busy = True
