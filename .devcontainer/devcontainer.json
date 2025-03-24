@@ -23,18 +23,26 @@
         }
     },
     "containerEnv": {
-        "GITHUB_PAT":"${localEnv:GITHUB_PAT}",
+        "GHP":"${localEnv:GHP}",
         "DISPLAY": "localhost:10.0",
         "XAUTHORITY":"${localEnv:HOME}/.Xauthority",
         "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST",
-        "ROS_DOMAIN_ID": "42"
+        "ROS_DOMAIN_ID": "42",
+        "UDEV":"1"
     },
     "runArgs": [
         "--net=host",
         "--pid=host",
         "--ipc=host",
-        "--device=/dev/ttyACM0",
-        "--device=/dev/bus/usb",
+        "--device=/dev:/dev",
+        "--device=/dev/dma_heap:/dev/dma_heap",
+        "--volume=/dev/:/dev/",
+        "--volume=/run/udev:/run/udev:ro",
+        "--volume=/run/dbus:/run/dbus",
+        "--volume=/etc/udev:/etc/udev",
+        "--group-add=video",
+        "--shm-size=1g",
+        "--memory=2g",
         "--privileged"
     ],
     "mounts": [
