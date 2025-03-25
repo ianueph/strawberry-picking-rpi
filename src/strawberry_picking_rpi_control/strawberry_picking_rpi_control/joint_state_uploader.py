@@ -12,6 +12,7 @@ class JointStateUploader(Node):
         
         self.chunk_size = 16
         self.timer_period = 0.005
+        self.serial_port = '/dev/ttyACM0'
         
         self.subscription = self.create_subscription(
             JointState,
@@ -22,7 +23,7 @@ class JointStateUploader(Node):
             self.timer_period,
             self.send_data_to_arduino,
         )
-        self.ser = serial.Serial('/dev/ttyACM0',500000)
+        self.ser = serial.Serial(self.serial_port,500000)
         self.incoming_joint_state = ""
         self.previous_joint_state = ""
         self.outgoing_msg = ""
