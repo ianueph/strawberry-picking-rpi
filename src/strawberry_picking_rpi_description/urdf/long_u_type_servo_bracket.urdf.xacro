@@ -17,7 +17,7 @@
             <collision>
                 <xacro:insert_block name="bracket_origin"/>
                 <geometry>
-                    <mesh filename="package://strawberry_picking_rpi_description/meshes/primitives/long_u_type_servo_bracket_primitive.stl" scale="0.001 0.001 0.001"/>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/long_u_type_servo_bracket.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
             </collision>
         </link>
