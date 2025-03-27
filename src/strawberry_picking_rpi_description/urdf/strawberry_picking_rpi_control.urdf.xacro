@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="strawberry_picking_rpi_control">
+    <ros2_control name="robot_6_dof" type="system">
+        <hardware>
+            <plugin>
+                joint_trajectory_controller/JointTrajectoryController
+            </plugin>
+        </hardware>
+        <joint name="DOF_1">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">{pi}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+        <joint name="DOF_2">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">{pi}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+        <joint name="DOF_3">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">{pi}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+        <joint name="DOF_4">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">{pi}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+        <joint name="DOF_5">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">{pi}</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+        <!-- additional joints ...-->
+        <!-- additional hardware/sensors ...-->
+    </ros2_control>
+    <ros2_control name="gripper_controller" type="actuator">
+        <hardware>
+            <plugin>
+                position_controllers/GrippperActionController
+            </plugin>
+        </hardware>
+        <joint name="GRIPPER">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">1.1</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+    </ros2_control>
+</robot>
