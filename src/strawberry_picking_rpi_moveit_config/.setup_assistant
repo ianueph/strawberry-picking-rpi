@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: strawberry_picking_rpi_description
+    relative_path: urdf/model_for_moveit.urdf
+  srdf:
+    relative_path: config/strawberry_picking_rpi.srdf
+  package_settings:
+    author_name: Angelo Ian Miguel Daniel
+    author_email: daniel.angeloianmiguel@ue.edu.ph
+    generated_timestamp: 1743002648

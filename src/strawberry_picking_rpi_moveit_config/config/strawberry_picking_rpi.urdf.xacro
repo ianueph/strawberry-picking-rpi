@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="strawberry_picking_rpi">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import strawberry_picking_rpi urdf file -->
+    <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/model_for_moveit.urdf" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="strawberry_picking_rpi.ros2_control.xacro" />
+
+
+    <xacro:strawberry_picking_rpi_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

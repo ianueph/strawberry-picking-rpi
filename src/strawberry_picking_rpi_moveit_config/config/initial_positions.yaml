@@ -1,0 +1,9 @@
+# Default initial positions for strawberry_picking_rpi's ros2_control fake system
+
+initial_positions:
+  DOF_1: 0
+  DOF_2: 1.5
+  DOF_3: 0
+  DOF_4: 0
+  DOF_5: 0
+  GRIPPER: 0
