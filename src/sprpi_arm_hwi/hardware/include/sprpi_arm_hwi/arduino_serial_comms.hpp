@@ -37,10 +37,21 @@ class ArduinoSerialComms
             return serial_conn_.IsOpen();
         }
 
-        void connect(const std::string &serial_device, int32_t baud_rate)
+        bool connect(const std::string &serial_device, int32_t baud_rate)
         {
-            serial_conn_.Open(serial_device);
+            try {   
+                serial_conn_.Open(serial_device);
+                if (!serial_conn_.IsOpen()) {
+                    throw serial_conn_.IsOpen();
+                }
+            }
+            catch (bool isOpen) {
+                return isOpen;
+            }
+
             serial_conn_.SetBaudRate(convert_baud_rate(baud_rate));
+
+            return serial_conn_.IsOpen();
         }
 
         void disconnect()
