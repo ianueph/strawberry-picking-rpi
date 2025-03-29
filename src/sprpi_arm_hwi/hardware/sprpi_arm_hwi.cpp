@@ -176,7 +176,7 @@ hardware_interface::return_type ArmHardwareInterface::write(
 
   for (const auto & [name, descr] : joint_command_interfaces_)
   {
-    if (name == "DOF_1/position") 
+    if (name == "DOF_2/position") 
     {
       joint_commands["ARM"][name] = DS3218_radians_to_microseconds(get_command(name));
       continue;
