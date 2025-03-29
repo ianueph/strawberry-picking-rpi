@@ -95,11 +95,11 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_configure(
   // reset values always when configuring hardware
   for (const auto & [name, descr] : joint_state_interfaces_)
   {
-    set_state(name, 1.5);
+    set_state(name, 1);
   }
   for (const auto & [name, descr] : joint_command_interfaces_)
   {
-    set_command(name, 1.5);
+    set_command(name, 1);
   }
   RCLCPP_INFO(get_logger(), "Successfully configured!");
 
@@ -145,6 +145,10 @@ hardware_interface::return_type ArmHardwareInterface::read(
   if (!comms_.isConnected())
   {
     return hardware_interface::return_type::ERROR;
+  }
+  for (const auto & [name, descr] : joint_command_interfaces_)
+  {
+    set_state(name, get_command(name));
   }
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   //std::stringstream ss;
