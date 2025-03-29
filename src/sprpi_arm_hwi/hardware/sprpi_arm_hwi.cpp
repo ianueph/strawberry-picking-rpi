@@ -95,11 +95,11 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_configure(
   // reset values always when configuring hardware
   for (const auto & [name, descr] : joint_state_interfaces_)
   {
-    set_state(name, 0.0);
+    set_state(name, 1.5);
   }
   for (const auto & [name, descr] : joint_command_interfaces_)
   {
-    set_command(name, 0.0);
+    set_command(name, 1.5);
   }
   RCLCPP_INFO(get_logger(), "Successfully configured!");
 
@@ -176,7 +176,12 @@ hardware_interface::return_type ArmHardwareInterface::write(
 
   for (const auto & [name, descr] : joint_command_interfaces_)
   {
-    joint_commands["ARM"][name] = get_command(name);
+    if (name == "DOF_1/position") 
+    {
+      joint_commands["ARM"][name] = DS3218_radians_to_microseconds(get_command(name));
+      continue;
+    }
+    joint_commands["ARM"][name] = MG996R_radians_to_microseconds(get_command(name));
     // Simulate sending commands to the hardware
     // ss << std::fixed << std::setprecision(2) << std::endl
     //    << "\t" << get_command(name) << " for joint '" << name << "'";

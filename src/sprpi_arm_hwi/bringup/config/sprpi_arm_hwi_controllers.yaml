@@ -6,13 +6,17 @@ controller_manager:
       type: joint_state_broadcaster/JointStateBroadcaster
 
 
-forward_position_controller:
+joint_trajectory_controller:
   ros__parameters:
-    type: forward_command_controller/ForwardCommandController
+    type: joint_trajectory_controller/JointTrajectoryController
     joints:
       - DOF_1
       - DOF_2
       - DOF_3
       - DOF_4
       - DOF_5
-    interface_name: position
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+    allow_nonzero_velocity_at_trajectory_end: true

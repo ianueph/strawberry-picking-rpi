@@ -18,6 +18,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <cmath>
 
 #include "hardware_interface/handle.hpp"
 #include "hardware_interface/hardware_info.hpp"
@@ -42,6 +43,18 @@ struct Config
 
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(ArmHardwareInterface)
+
+  int MG996R_radians_to_microseconds(const double rad)
+  {
+    int microseconds = static_cast<int>(floor(1000 + (rad*1000)/M_PI));
+    return microseconds;
+  }
+
+  int DS3218_radians_to_microseconds(const double rad)
+  {
+    int microseconds = static_cast<int>(floor(500 + (rad*2000)/M_PI));
+    return microseconds;
+  }
 
   hardware_interface::CallbackReturn on_init(
     const hardware_interface::HardwareInfo & info) override;
