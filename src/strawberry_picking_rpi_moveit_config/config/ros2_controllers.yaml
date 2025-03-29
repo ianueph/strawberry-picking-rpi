@@ -1,20 +1,20 @@
 # This config file is used by ros2_control
 controller_manager:
   ros__parameters:
-    update_rate: 100  # Hz
+    update_rate: 5  # Hz
 
-    strawberry_picking_rpi_arm_controller:
+    arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
 
-    strawberry_picking_rpi_hand_controller:
+    gripper_controller:
       type: position_controllers/GripperActionController
 
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-strawberry_picking_rpi_arm_controller:
+arm_controller:
   ros__parameters:
     joints:
       - DOF_1

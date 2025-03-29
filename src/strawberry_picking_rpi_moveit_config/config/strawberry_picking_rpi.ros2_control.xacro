@@ -6,49 +6,46 @@
         <ros2_control name="${name}" type="system">
             <hardware>
                 <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-                <plugin>mock_components/GenericSystem</plugin>
+                <plugin>sprpi_arm_hwi/ArmHardwareInterface</plugin>
+                <param name="baud_rate">230400</param>
+                <param name="serial_port">/dev/ttyACM0</param>
             </hardware>
+
             <joint name="DOF_1">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['DOF_1']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="DOF_2">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['DOF_2']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="DOF_3">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['DOF_3']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="DOF_4">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['DOF_4']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="DOF_5">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['DOF_5']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
             <joint name="GRIPPER">
                 <command_interface name="position"/>
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['GRIPPER']}</param>
                 </state_interface>
-                <state_interface name="velocity"/>
             </joint>
 
         </ros2_control>
