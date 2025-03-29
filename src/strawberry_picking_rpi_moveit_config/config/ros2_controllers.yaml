@@ -26,7 +26,6 @@ strawberry_picking_rpi_arm_controller:
       - position
     state_interfaces:
       - position
-      - velocity
     allow_nonzero_velocity_at_trajectory_end: true
 strawberry_picking_rpi_hand_controller:
   ros__parameters:

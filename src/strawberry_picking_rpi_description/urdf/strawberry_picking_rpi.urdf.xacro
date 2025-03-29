@@ -387,4 +387,5 @@
     </xacro:gripper>
     <!-- ros2_control part -->
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/strawberry_picking_rpi_control.urdf.xacro"/>
+    <xacro:controllers/>
 </robot>
