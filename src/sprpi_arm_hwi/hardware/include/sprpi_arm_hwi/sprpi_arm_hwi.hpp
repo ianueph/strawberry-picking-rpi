@@ -77,6 +77,9 @@ public:
 private:
   ArduinoSerialComms comms_;
   Config cfg_;
+  double position_ = 0.0;
+  double last_position_ = 0.0;
+  double velocity_ = 0.0;
 };
 
 }  // namespace sprpi_arm_hwi

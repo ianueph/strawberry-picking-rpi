@@ -48,6 +48,7 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_init(
 
   for (const hardware_interface::ComponentInfo & joint : info_.joints)
   {
+    RCLCPP_INFO(get_logger(), "Loading the following joints: %s", joint.name.c_str());
     // RRBotSystemPositionOnly has exactly one state and command interface on each joint
     if (joint.command_interfaces.size() != 1)
     {
@@ -65,22 +66,6 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_init(
         hardware_interface::HW_IF_POSITION);
       return hardware_interface::CallbackReturn::ERROR;
     }
-
-    if (joint.state_interfaces.size() != 1)
-    {
-      RCLCPP_FATAL(
-        get_logger(), "Joint '%s' has %zu state interface. 1 expected.", joint.name.c_str(),
-        joint.state_interfaces.size());
-      return hardware_interface::CallbackReturn::ERROR;
-    }
-
-    if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION)
-    {
-      RCLCPP_FATAL(
-        get_logger(), "Joint '%s' have %s state interface. '%s' expected.", joint.name.c_str(),
-        joint.state_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
-      return hardware_interface::CallbackReturn::ERROR;
-    }
   }
 
   return hardware_interface::CallbackReturn::SUCCESS;
@@ -95,10 +80,12 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_configure(
   // reset values always when configuring hardware
   for (const auto & [name, descr] : joint_state_interfaces_)
   {
+    RCLCPP_INFO(get_logger(), "Loading the following state_interfaces: %s", name.c_str());
     set_state(name, 1);
   }
   for (const auto & [name, descr] : joint_command_interfaces_)
   {
+    RCLCPP_INFO(get_logger(), "Loading the following command_interfaces: %s", name.c_str());
     set_command(name, 1);
   }
   RCLCPP_INFO(get_logger(), "Successfully configured!");
@@ -121,7 +108,7 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_activate(
   }
 
   // command and state should be equal when starting
-  for (const auto & [name, descr] : joint_state_interfaces_)
+  for (const auto & [name, descr] : joint_command_interfaces_)
   {
     set_command(name, get_state(name));
   }
@@ -146,16 +133,26 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_deactivate(
 }
 
 hardware_interface::return_type ArmHardwareInterface::read(
-  const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
+  const rclcpp::Time & /*time*/, const rclcpp::Duration &period)
 {
   if (!comms_.isConnected())
   {
     return hardware_interface::return_type::ERROR;
   }
+
   for (const auto & [name, descr] : joint_command_interfaces_)
   {
     set_state(name, get_command(name));
   }
+
+  position_ = get_state("GRIPPER/position");
+
+  // Compute velocity using finite difference method
+  velocity_ = (position_ - last_position_) / period.seconds();
+  set_state("GRIPPER/velocity", velocity_);
+
+  last_position_ = position_;
+  return hardware_interface::return_type::OK;
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   //std::stringstream ss;
   //ss << "Reading states:";

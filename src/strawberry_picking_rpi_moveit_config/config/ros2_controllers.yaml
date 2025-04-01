@@ -27,6 +27,6 @@ arm_controller:
     state_interfaces:
       - position
     allow_nonzero_velocity_at_trajectory_end: true
-strawberry_picking_rpi_hand_controller:
+gripper_controller:
   ros__parameters:
     joint: GRIPPER
