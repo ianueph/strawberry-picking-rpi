@@ -294,9 +294,9 @@
     <child link="3_servo"/>
   </joint>
   <joint name="DOF_3" type="revolute">
-    <origin rpy="             0.0             0.0             1.5707963267948966" xyz="             -0.1055             0.0             0.0"/>
+    <origin rpy="             0.0             0.0             -1.5707963267948966" xyz="             -0.1055             0.0             0.0"/>
     <limit effort="1000" lower="0" upper="3.141592653589793" velocity="6.98133333333"/>
-    <axis xyz="0.0 0.0 1"/>
+    <axis xyz="0.0 0.0 -1"/>
     <parent link="3_long_u_type_servo_bracket"/>
     <child link="3_multi_functional_servo_bracket_with_servo"/>
   </joint>
@@ -378,9 +378,9 @@
     <child link="4_servo"/>
   </joint>
   <joint name="DOF_4" type="revolute">
-    <origin rpy="             3.141592653589793             1.5707963267948966             0.0" xyz="             -0.025             -0.0525             0.002"/>
+    <origin rpy="             0.0             -1.5707963267948966             0.0" xyz="             -0.025             -0.0525             0.002"/>
     <limit effort="1000" lower="0" upper="3.141592653589793" velocity="6.98133333333"/>
-    <axis xyz="0.0 0.0 1"/>
+    <axis xyz="0.0 0.0 -1"/>
     <parent link="4_long_u_type_servo_bracket"/>
     <child link="4_multi_functional_servo_bracket_with_servo"/>
   </joint>
@@ -662,7 +662,7 @@
     <limit effort="1000" lower="0" upper="3.141592653589793" velocity="6.98133333333"/>
     <axis xyz="0.0 0.0 1"/>
   </joint>
-  <!-- ros2_control part, commented out for moveit2 -->
+  <!-- ros2_control part, commented out for MoveIt2 -->
   <!--<xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/strawberry_picking_rpi_control.urdf.xacro"/>
     <xacro:controllers/>-->
 </robot>

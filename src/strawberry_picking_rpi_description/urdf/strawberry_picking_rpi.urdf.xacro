@@ -270,10 +270,10 @@
             rpy="
             0.0
             0.0
-            ${pi/2}"
+            ${-pi/2}"
             />
             <limit lower="0" upper="${pi}" effort="1000" velocity="${mg996r_velocity_6v}"/>
-            <axis xyz="0.0 0.0 1"/>
+            <axis xyz="0.0 0.0 -1"/>
             <parent link="3_long_u_type_servo_bracket"/>
             <child link="3_multi_functional_servo_bracket_with_servo"/>
         </joint>
@@ -340,12 +340,12 @@
             ${-long_u_type_servo_bracket_x_size+0.0025}
             ${0.002}" 
             rpy="
-            ${pi}
-            ${pi/2}
+            0.0
+            ${-pi/2}
             0.0"
             />
             <limit lower="0" upper="${pi}" effort="1000" velocity="${mg996r_velocity_6v}"/>
-            <axis xyz="0.0 0.0 1"/>
+            <axis xyz="0.0 0.0 -1"/>
             <parent link="4_long_u_type_servo_bracket"/>
             <child link="4_multi_functional_servo_bracket_with_servo"/>
         </joint>
@@ -385,7 +385,7 @@
             
         </joint>
     </xacro:gripper>
-    <!-- ros2_control part, commented out for moveit2 -->
+    <!-- ros2_control part, commented out for MoveIt2 -->
     <!--<xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/strawberry_picking_rpi_control.urdf.xacro"/>
     <xacro:controllers/>-->
 </robot>
