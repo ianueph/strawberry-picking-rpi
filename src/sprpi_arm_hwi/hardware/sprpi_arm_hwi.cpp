@@ -112,7 +112,13 @@ hardware_interface::CallbackReturn ArmHardwareInterface::on_activate(
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(get_logger(), "Activating ...please wait...");
 
-  comms_.connect(cfg_.serial_port, cfg_.baud_rate);
+  int tries = 0;
+
+  while (!comms_.connect(cfg_.serial_port, cfg_.baud_rate)) {
+    tries++;
+    RCLCPP_WARN(get_logger(), "Failed connection trying again in 5 seconds..., tries: %d", tries);
+    rclcpp::sleep_for(std::chrono::seconds(5));
+  }
 
   // command and state should be equal when starting
   for (const auto & [name, descr] : joint_state_interfaces_)

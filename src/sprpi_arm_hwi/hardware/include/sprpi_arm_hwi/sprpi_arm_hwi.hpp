@@ -46,7 +46,7 @@ public:
 
   int MG996R_radians_to_microseconds(const double rad)
   {
-    int microseconds = static_cast<int>(floor(1000 + (rad*1000)/M_PI));
+    int microseconds = static_cast<int>(floor(600 + (rad*1900)/M_PI));
     return microseconds;
   }
 
