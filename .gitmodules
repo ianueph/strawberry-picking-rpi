@@ -1,3 +1,6 @@
 [submodule "src/camera_ros"]
 	path = src/camera_ros
 	url = https://github.com/christianrauch/camera_ros.git
+[submodule "src/depth_anything_v2_ros2"]
+	path = src/depth_anything_v2_ros2
+	url = https://github.com/ianueph/depth_anything_v2_ros2.git

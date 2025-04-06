@@ -11,3 +11,6 @@ log/*
 
 # Created if VS Code containers don't terminate correctly
 core
+
+# ignore model weights
+*.pt
