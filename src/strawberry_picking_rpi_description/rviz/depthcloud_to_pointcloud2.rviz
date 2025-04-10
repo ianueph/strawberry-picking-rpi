@@ -1,0 +1,362 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /CameraInfo1/Status1
+        - /PointCloud21
+        - /PointCloud21/Status1
+      Splitter Ratio: 0.5
+    Tree Height: 626
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 0.800000011920929
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Links:
+        1_l_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_u_type_robot_waist_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_u_type_robot_waist_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_u_type_robot_waist_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        4_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        4_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        4_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        5_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        5_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        finger_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        finger_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_large:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_large_lo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_left_over:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_left_under:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_right_over:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_right_under:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Mass Properties:
+        Inertia: false
+        Mass: false
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz_default_plugins/TF
+      Enabled: false
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree:
+        {}
+      Update Interval: 0
+      Value: false
+    - Alpha: 0.5
+      Class: rviz_default_plugins/CameraInfo
+      Color: 85; 255; 255
+      Edge color: 125; 125; 125
+      Enabled: true
+      Far clip: 1
+      Name: CameraInfo
+      Not show side polygons: true
+      Show edges: true
+      Show polygons: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /camera/depth/camera_info
+      Value: true
+    - Class: rviz_default_plugins/Camera
+      Enabled: true
+      Far Plane Distance: 100
+      Image Rendering: background and overlay
+      Name: Camera
+      Overlay Alpha: 0.5
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /camera/depth/image_raw
+      Value: true
+      Visibility:
+        CameraInfo: true
+        Grid: true
+        Image: true
+        PointCloud2: true
+        RobotModel: true
+        TF: true
+        Value: true
+      Zoom Factor: 1
+    - Alpha: 0.10000000149011612
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 7.840414524078369
+        Min Value: 2.2513866424560547
+        Value: true
+      Axis: X
+      Channel Name: intensity
+      Class: rviz_default_plugins/PointCloud2
+      Color: 255; 170; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 5
+      Size (m): 1
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /points
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /camera/image_raw
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 13.742439270019531
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 5.052178382873535
+        Y: 1.0426931381225586
+        Z: -0.11398045718669891
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.5100001096725464
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 2.410001516342163
+    Saved: ~
+Window Geometry:
+  Camera:
+    collapsed: false
+  Displays:
+    collapsed: false
+  Height: 841
+  Hide Left Dock: false
+  Hide Right Dock: false
+  Image:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000200000000000001c7000002f3fc0200000002fb000000100044006900730070006c006100790073010000003b000002f3000000c700fffffffb0000000a005600690065007700730000000179000000c8000000a000ffffff0000000100000140000002f3fc0200000002fc0000003b000001770000001600fffffffa000000010100000002fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000c00430061006d0065007200610100000370000001400000006400fffffffb0000000a0049006d00610067006501000001b8000001760000001600ffffff000002ed000002f300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Views:
+    collapsed: false
+  Width: 1536
+  X: 0
+  Y: 23
