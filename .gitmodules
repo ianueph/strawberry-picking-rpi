@@ -4,3 +4,6 @@
 [submodule "src/depth_anything_v2_ros2"]
 	path = src/depth_anything_v2_ros2
 	url = https://github.com/ianueph/depth_anything_v2_ros2.git
+[submodule "src/yolo_ros"]
+	path = src/yolo_ros
+	url = https://github.com/jiepee/yolo_ros.git
