@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robotic_base_with_accessories">
+    <xacro:property name="kabaong_x_size" value="0.85"/>
+    <xacro:property name="kabaong_y_size" value="0.25"/>
+    <xacro:property name="kabaong_z_size" value="0.05"/>
+
+    <xacro:property name="basket_radius" value="${0.17/2}"/>
+    <xacro:property name="basket_length" value="0.13"/>
+
+    <xacro:property name="mirror_x_size" value="0.03"/>
+    <xacro:property name="mirror_y_size" value="0.105"/>
+    <xacro:property name="mirror_z_size" value="0.15"/>
+    
+    <xacro:macro name="robotic_base_with_accessories" params="parent_link *base_origin *joint_origin">
+        <link name="kabaong">
+            <inertial>
+                <xacro:insert_block name="base_origin"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <xacro:insert_block name="base_origin"/>
+                <geometry>
+                    <box size="${kabaong_x_size} 
+                               ${kabaong_y_size} 
+                               ${kabaong_z_size}"
+                    />
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <xacro:insert_block name="base_origin"/>
+                <geometry>
+                    <box size="${kabaong_x_size} 
+                               ${kabaong_y_size} 
+                               ${kabaong_z_size}"
+                    />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="kabaong_to_base_link" type="fixed">
+            <xacro:insert_block name="joint_origin"/>
+            <parent link="${parent_link}"/>
+            <child link="kabaong"/>
+        </joint>
+
+        <link name="basket_diseased">
+            <inertial>
+                <origin xyz="0.0 0.0 ${basket_length/2}" rpy="0.0 0.0 0.0"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 ${basket_length/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${basket_radius}" length="${basket_length}"/>
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${basket_length/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${basket_radius}" length="${basket_length}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="basket_diseased_to_kabaong" type="fixed">
+            <origin xyz="
+            ${-kabaong_x_size/2 + 0.065} 
+            0.0 
+            ${kabaong_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            0.0"/>
+            <parent link="kabaong"/>
+            <child link="basket_diseased"/>
+        </joint>
+
+        <link name="basket_healthy">
+            <inertial>
+                <origin xyz="0.0 0.0 ${basket_length/2}" rpy="0.0 0.0 0.0"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 ${basket_length/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${basket_radius}" length="${basket_length}"/>
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${basket_length/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${basket_radius}" length="${basket_length}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="basket_healthy_to_kabaong" type="fixed">
+            <origin xyz="
+            ${-kabaong_x_size/2 + 0.235} 
+            0.0 
+            ${kabaong_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            0.0"/>
+            <parent link="kabaong"/>
+            <child link="basket_healthy"/>
+        </joint>
+
+        <link name="mirror_left">
+            <inertial>
+                <origin xyz="0.0 0.0 ${mirror_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 ${mirror_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${mirror_x_size} 
+                               ${mirror_y_size} 
+                               ${mirror_z_size}"
+                    />
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${mirror_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${mirror_x_size} 
+                               ${mirror_y_size} 
+                               ${mirror_z_size}"
+                    />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="mirror_left_to_kabaong" type="fixed">
+            <origin xyz="
+            ${kabaong_x_size/2 - 0.05} 
+            -0.0555
+            ${kabaong_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            -0.602138592"/>
+            <parent link="kabaong"/>
+            <child link="mirror_left"/>
+        </joint>
+
+        <link name="mirror_right">
+            <inertial>
+                <origin xyz="0.0 0.0 ${mirror_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 ${mirror_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${mirror_x_size} 
+                               ${mirror_y_size} 
+                               ${mirror_z_size}"
+                    />
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${mirror_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${mirror_x_size} 
+                               ${mirror_y_size} 
+                               ${mirror_z_size}"
+                    />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="mirror_right_to_kabaong" type="fixed">
+            <origin xyz="
+            ${kabaong_x_size/2 - 0.05} 
+            0.0555
+            ${kabaong_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            0.602138592"/>
+            <parent link="kabaong"/>
+            <child link="mirror_right"/>
+        </joint>
+    </xacro:macro>
+</robot>

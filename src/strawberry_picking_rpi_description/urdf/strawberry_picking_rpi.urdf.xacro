@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="strawberry_picking_rpi">
     <!-- based on 2x2 plank measurements 1.5in x 1.5in x 1.5in -->
-    <xacro:property name="base_x_size" value="0.0381"/>
-    <xacro:property name="base_y_size" value="0.0381"/>
-    <xacro:property name="base_z_size" value="0.0381"/>
+    <xacro:property name="base_x_size" value="0.1"/>
+    <xacro:property name="base_y_size" value="0.1"/>
+    <xacro:property name="base_z_size" value="0.02"/>
 
     <xacro:property name="u_type_robot_waist_bracket_x_size" value="0.090"/>
     <xacro:property name="u_type_robot_waist_bracket_y_size" value="0.045"/>
@@ -28,6 +28,7 @@
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/long_u_type_servo_bracket.urdf.xacro"/>
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/l_type_servo_bracket.urdf.xacro"/>
     <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/gripper.urdf.xacro"/>
+    <xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/robotic_base_with_accessories.urdf.xacro"/>
     
     <material name="wood">
         <color rgba="${164/255} ${116/255} ${73/255} 1.0"/>
@@ -388,4 +389,26 @@
     <!-- ros2_control part, commented out for MoveIt2 -->
     <!--<xacro:include filename="$(find strawberry_picking_rpi_description)/urdf/strawberry_picking_rpi_control.urdf.xacro"/>
     <xacro:controllers/>-->
+
+    <!-- the next block will define the robotic base with it's accessories (e.g. cameras) -->
+    <xacro:robotic_base_with_accessories parent_link="base_link"> 
+        <origin xyz="
+        0.0
+        0.0
+        0.0" 
+        rpy="
+        0.0 
+        0.0
+        0.0"
+        />
+        <origin xyz="
+        0.0
+        ${(base_y_size/2-kabaong_y_size/2)}
+        ${-(base_z_size/2+kabaong_z_size/2)}" 
+        rpy="
+        0.0 
+        0.0
+        0.0"
+        />
+    </xacro:robotic_base_with_accessories>
 </robot>
