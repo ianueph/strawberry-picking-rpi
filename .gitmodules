@@ -7,3 +7,7 @@
 [submodule "src/yolo_ros"]
 	path = src/yolo_ros
 	url = https://github.com/jiepee/yolo_ros.git
+[submodule "src/moveit_task_constructor"]
+	path = src/moveit_task_constructor
+	url = https://github.com/moveit/moveit_task_constructor.git
+	branch = jazzy

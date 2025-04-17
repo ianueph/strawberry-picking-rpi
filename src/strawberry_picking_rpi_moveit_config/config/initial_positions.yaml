@@ -2,7 +2,7 @@
 
 initial_positions:
   DOF_1: 0
-  DOF_2: 1.5
+  DOF_2: 0
   DOF_3: 0
   DOF_4: 0
   DOF_5: 0

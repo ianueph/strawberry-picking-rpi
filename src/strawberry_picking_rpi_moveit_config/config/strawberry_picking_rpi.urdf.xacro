@@ -9,6 +9,6 @@
     <xacro:include filename="strawberry_picking_rpi.ros2_control.xacro" />
 
 
-    <xacro:strawberry_picking_rpi_ros2_control name="arm_controller" initial_positions_file="$(arg initial_positions_file)"/>
+    <xacro:strawberry_picking_rpi_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
 
 </robot>

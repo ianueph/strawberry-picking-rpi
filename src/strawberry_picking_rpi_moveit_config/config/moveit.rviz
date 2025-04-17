@@ -5,10 +5,12 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
+        - /MotionPlanning1/Planning Request1
+        - /MotionPlanning1/Planning Metrics1
         - /MotionPlanning1/Planned Path1
         - /Trajectory1
       Splitter Ratio: 0.5
-    Tree Height: 309
+    Tree Height: 313
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -163,6 +165,16 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          basket_diseased:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          basket_healthy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           finger_left:
             Alpha: 1
             Show Axes: false
@@ -213,6 +225,21 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          kabaong:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mirror_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mirror_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
         Loop Animation: true
         Robot Alpha: 0.5
         Robot Color: 150; 50; 150
@@ -236,9 +263,9 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: Gripper
+        Planning Group: arm
         Query Goal State: true
-        Query Start State: true
+        Query Start State: false
         Show Workspace: false
         Start State Alpha: 1
         Start State Color: 0; 255; 0
@@ -354,6 +381,16 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          basket_diseased:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          basket_healthy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           finger_left:
             Alpha: 1
             Show Axes: false
@@ -400,6 +437,21 @@ Visualization Manager:
             Show Trail: false
             Value: true
           gripper_servo:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          kabaong:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mirror_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          mirror_right:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -514,6 +566,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        basket_diseased:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        basket_healthy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         finger_left:
           Alpha: 1
           Show Axes: false
@@ -564,6 +626,21 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        kabaong:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mirror_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mirror_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Loop Animation: false
       Name: Trajectory
       Robot Alpha: 0.5
@@ -595,30 +672,30 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.3629440069198608
+      Distance: 0.9662391543388367
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.009304726496338844
-        Y: 0.13943946361541748
-        Z: 0.1725187450647354
+        X: -0.004330859519541264
+        Y: 0.12444645166397095
+        Z: 0.12564587593078613
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4700000286102295
+      Pitch: 0.40000003576278687
       Target Frame: base_link
       Value: Orbit (rviz_default_plugins)
-      Yaw: 4.825185298919678
+      Yaw: 4.185184955596924
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 832
+  Height: 841
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -627,11 +704,11 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002b4000002eafc0200000007fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b00000170000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001b1000001740000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a005600690065007700730000000292000000a0000000a000fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000003c005400720061006a006500630074006f007200790020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00ffffff00000044000002ea00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002b4000002f3fc0200000007fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b00000174000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001b5000001790000017400fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a005600690065007700730000000292000000a0000000a000fffffffb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000003c005400720061006a006500630074006f007200790020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00ffffff00000346000002f300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Trajectory - Trajectory Slider:
     collapsed: false
   Views:
     collapsed: false
-  Width: 766
-  X: 8
-  Y: 31
+  Width: 1536
+  X: 0
+  Y: 23

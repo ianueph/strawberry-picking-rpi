@@ -10,32 +10,7 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="arm">
-        <link name="base_link"/>
-        <link name="1_u_type_robot_waist_bracket"/>
-        <link name="2_u_type_robot_waist_bracket"/>
-        <link name="3_u_type_robot_waist_bracket"/>
-        <link name="1_multi_functional_servo_bracket_with_servo"/>
-        <link name="1_servo"/>
-        <link name="1_long_u_type_servo_bracket"/>
-        <link name="2_multi_functional_servo_bracket_with_servo"/>
-        <link name="2_servo"/>
-        <link name="2_long_u_type_servo_bracket"/>
-        <link name="3_long_u_type_servo_bracket"/>
-        <link name="3_multi_functional_servo_bracket_with_servo"/>
-        <link name="1_l_type_servo_bracket"/>
-        <link name="4_long_u_type_servo_bracket"/>
-        <link name="4_multi_functional_servo_bracket_with_servo"/>
-        <link name="4_servo"/>
-        <link name="5_multi_functional_servo_bracket_with_servo"/>
-        <link name="5_servo"/>
-        <link name="3_servo"/>
-        <link name="gripper_base"/>
-        <joint name="DOF_1"/>
-        <joint name="DOF_2"/>
-        <joint name="DOF_3"/>
-        <joint name="DOF_4"/>
-        <joint name="DOF_5"/>
-        <joint name="base_to_world"/>
+        <chain base_link="3_u_type_robot_waist_bracket" tip_link="gripper_base"/>
     </group>
     <group name="Gripper">
         <link name="gripper_palm_to_finger_large_lo"/>
@@ -63,7 +38,7 @@
         <joint name="GRIPPER" value="0"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="pinchers" parent_link="gripper_base" group="arm"/>
+    <end_effector name="pinchers" parent_link="gripper_base" group="Gripper" parent_group="arm"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="base_to_world" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
@@ -82,11 +57,17 @@
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="2_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="3_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="3_multi_functional_servo_bracket_with_servo" reason="Never"/>
+    <disable_collisions link1="1_long_u_type_servo_bracket" link2="3_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="4_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="5_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="base_link" reason="Never"/>
+    <disable_collisions link1="1_long_u_type_servo_bracket" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="1_long_u_type_servo_bracket" link2="basket_healthy" reason="Never"/>
     <disable_collisions link1="1_long_u_type_servo_bracket" link2="finger_left" reason="Never"/>
+    <disable_collisions link1="1_long_u_type_servo_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="1_long_u_type_servo_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="1_long_u_type_servo_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="1_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="2_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="2_multi_functional_servo_bracket_with_servo" reason="Never"/>
@@ -98,7 +79,12 @@
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="5_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="base_link" reason="Never"/>
+    <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="basket_healthy" reason="Never"/>
     <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="finger_left" reason="Never"/>
+    <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="1_multi_functional_servo_bracket_with_servo" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="2_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="2_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="2_u_type_robot_waist_bracket" reason="Adjacent"/>
@@ -106,7 +92,13 @@
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="3_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="3_u_type_robot_waist_bracket" reason="Adjacent"/>
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="4_long_u_type_servo_bracket" reason="Never"/>
+    <disable_collisions link1="1_u_type_robot_waist_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="1_u_type_robot_waist_bracket" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="1_u_type_robot_waist_bracket" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="1_u_type_robot_waist_bracket" link2="basket_healthy" reason="Never"/>
+    <disable_collisions link1="1_u_type_robot_waist_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="1_u_type_robot_waist_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="1_u_type_robot_waist_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="2_multi_functional_servo_bracket_with_servo" reason="Adjacent"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="2_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="3_long_u_type_servo_bracket" reason="Adjacent"/>
@@ -116,10 +108,15 @@
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="5_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="base_link" reason="Never"/>
+    <disable_collisions link1="2_long_u_type_servo_bracket" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="2_long_u_type_servo_bracket" link2="basket_healthy" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="finger_left" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="finger_right" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="gripper_base" reason="Never"/>
     <disable_collisions link1="2_long_u_type_servo_bracket" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="2_long_u_type_servo_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="2_long_u_type_servo_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="2_long_u_type_servo_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="2_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="3_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="3_multi_functional_servo_bracket_with_servo" reason="Never"/>
@@ -128,59 +125,111 @@
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="5_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="base_link" reason="Never"/>
+    <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="basket_healthy" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="finger_left" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="finger_right" reason="Never"/>
     <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="gripper_base" reason="Never"/>
+    <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="2_multi_functional_servo_bracket_with_servo" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="2_u_type_robot_waist_bracket" link2="3_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="2_u_type_robot_waist_bracket" link2="3_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="2_u_type_robot_waist_bracket" link2="3_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="2_u_type_robot_waist_bracket" link2="4_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="2_u_type_robot_waist_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
-    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="base_link" reason="Never"/>
+    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="base_link" reason="Default"/>
+    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="basket_healthy" reason="Never"/>
+    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="2_u_type_robot_waist_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="3_multi_functional_servo_bracket_with_servo" reason="Adjacent"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="3_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="4_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="5_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="base_link" reason="Never"/>
+    <disable_collisions link1="3_long_u_type_servo_bracket" link2="basket_diseased" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="finger_left" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="finger_right" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="gripper_base" reason="Never"/>
     <disable_collisions link1="3_long_u_type_servo_bracket" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="3_long_u_type_servo_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="3_long_u_type_servo_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="3_long_u_type_servo_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="3_u_type_robot_waist_bracket" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="4_long_u_type_servo_bracket" reason="Adjacent"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="5_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="base_link" reason="Never"/>
+    <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="basket_diseased" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="finger_left" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="finger_right" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="gripper_base" reason="Never"/>
     <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="3_multi_functional_servo_bracket_with_servo" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="3_u_type_robot_waist_bracket" link2="4_long_u_type_servo_bracket" reason="Never"/>
     <disable_collisions link1="3_u_type_robot_waist_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Never"/>
     <disable_collisions link1="3_u_type_robot_waist_bracket" link2="base_link" reason="Never"/>
+    <disable_collisions link1="3_u_type_robot_waist_bracket" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="3_u_type_robot_waist_bracket" link2="basket_healthy" reason="Never"/>
+    <disable_collisions link1="3_u_type_robot_waist_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="3_u_type_robot_waist_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="3_u_type_robot_waist_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="4_multi_functional_servo_bracket_with_servo" reason="Adjacent"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="5_multi_functional_servo_bracket_with_servo" reason="Default"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="base_link" reason="Never"/>
+    <disable_collisions link1="4_long_u_type_servo_bracket" link2="basket_diseased" reason="Never"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="finger_left" reason="Never"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="finger_right" reason="Never"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="gripper_base" reason="Never"/>
     <disable_collisions link1="4_long_u_type_servo_bracket" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="4_long_u_type_servo_bracket" link2="kabaong" reason="Never"/>
+    <disable_collisions link1="4_long_u_type_servo_bracket" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="4_long_u_type_servo_bracket" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="5_multi_functional_servo_bracket_with_servo" reason="Adjacent"/>
-    <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="base_link" reason="Never"/>
+    <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="basket_diseased" reason="Never"/>
     <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="finger_left" reason="Never"/>
     <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="finger_right" reason="Never"/>
     <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="gripper_base" reason="Never"/>
     <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="gripper_servo" reason="Never"/>
-    <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="base_link" reason="Never"/>
+    <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="4_multi_functional_servo_bracket_with_servo" link2="mirror_right" reason="Never"/>
+    <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="basket_diseased" reason="Never"/>
     <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="finger_left" reason="Never"/>
     <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="finger_right" reason="Never"/>
     <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="gripper_base" reason="Adjacent"/>
     <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="5_multi_functional_servo_bracket_with_servo" link2="mirror_right" reason="Never"/>
+    <disable_collisions link1="base_link" link2="basket_diseased" reason="Never"/>
+    <disable_collisions link1="base_link" link2="basket_healthy" reason="Never"/>
+    <disable_collisions link1="base_link" link2="kabaong" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="base_link" link2="mirror_right" reason="Never"/>
+    <disable_collisions link1="basket_diseased" link2="basket_healthy" reason="Never"/>
+    <disable_collisions link1="basket_diseased" link2="kabaong" reason="Adjacent"/>
+    <disable_collisions link1="basket_diseased" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="basket_diseased" link2="mirror_right" reason="Never"/>
+    <disable_collisions link1="basket_healthy" link2="kabaong" reason="Adjacent"/>
+    <disable_collisions link1="basket_healthy" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="basket_healthy" link2="mirror_right" reason="Never"/>
     <disable_collisions link1="finger_left" link2="finger_right" reason="Default"/>
     <disable_collisions link1="finger_left" link2="gripper_base" reason="Adjacent"/>
     <disable_collisions link1="finger_left" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="finger_left" link2="mirror_left" reason="Never"/>
     <disable_collisions link1="finger_right" link2="gripper_base" reason="Adjacent"/>
     <disable_collisions link1="finger_right" link2="gripper_servo" reason="Never"/>
+    <disable_collisions link1="finger_right" link2="mirror_left" reason="Never"/>
     <disable_collisions link1="gripper_base" link2="gripper_servo" reason="Adjacent"/>
+    <disable_collisions link1="gripper_base" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="gripper_base" link2="mirror_right" reason="Never"/>
+    <disable_collisions link1="gripper_servo" link2="mirror_left" reason="Never"/>
+    <disable_collisions link1="gripper_servo" link2="mirror_right" reason="Never"/>
+    <disable_collisions link1="kabaong" link2="mirror_left" reason="Adjacent"/>
+    <disable_collisions link1="kabaong" link2="mirror_right" reason="Adjacent"/>
+    <disable_collisions link1="mirror_left" link2="mirror_right" reason="Never"/>
 </robot>
