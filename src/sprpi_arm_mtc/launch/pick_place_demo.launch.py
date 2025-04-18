@@ -1,0 +1,20 @@
+from pathlib import Path
+from launch import LaunchDescription
+from launch_ros.actions import Node
+from moveit_configs_utils import MoveItConfigsBuilder
+
+def generate_launch_description():
+    moveit_config = MoveItConfigsBuilder("strawberry_picking_rpi"
+                                         ).robot_description_semantic(Path("config") / "strawberry_picking_rpi.srdf").to_dict()
+
+    # MTC Demo node
+    pick_place_demo = Node(
+        package="sprpi_arm_mtc",
+        executable="sprpi_arm_mtc",
+        output="screen",
+        parameters=[
+            moveit_config,
+        ],
+    )
+
+    return LaunchDescription([pick_place_demo])
