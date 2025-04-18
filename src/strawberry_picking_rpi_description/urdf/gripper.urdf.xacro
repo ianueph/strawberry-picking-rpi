@@ -24,12 +24,12 @@
 
         <link name="gripper_palm_to_finger_large_lo">
             <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${pi/2}"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
             <visual>
-                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${pi/2}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/gripper_palm_to_finger_large_lo.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -39,19 +39,19 @@
         <joint name="GRIPPER" type="revolute">
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_large_lo"/>
-            <axis xyz="1 0 0"/>
+            <axis xyz="-1 0 0"/>
             <limit lower="0.0" upper="1.1" velocity="50.0" effort="1000.0"/>
             <origin xyz="-0.002 -0.015 0.03" rpy="0 0 0"/>
         </joint>
         
         <link name="gripper_palm_to_finger_large">
             <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${pi/2}"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
             <visual>
-                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi} ${-pi/2}"/>
+                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/gripper_palm_to_finger_large.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -61,7 +61,7 @@
         <joint name="gripper_palm_to_finger_large_to_gripper_base" type="revolute">
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_large"/>
-            <mimic joint="GRIPPER" multiplier="-1"/>
+            <mimic joint="GRIPPER"/>
             <axis xyz="1 0 0"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.0 0.012 0.03" rpy="0 0 0"/>
@@ -69,12 +69,12 @@
 
         <link name="gripper_palm_to_finger_small_left_over">
             <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${pi/2}"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
             <visual>
-                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi} ${-pi/2}"/>
+                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/gripper_palm_to_finger_small.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -85,18 +85,18 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_left_over"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="GRIPPER" multiplier="-1"/>
+            <mimic joint="GRIPPER"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.0 0.0068 0.052" rpy="0 0 0"/>
         </joint>
         <link name="gripper_palm_to_finger_small_left_under">
             <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${pi/2}"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
             <visual>
-                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi} ${-pi/2}"/>
+                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi-1.1} ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/gripper_palm_to_finger_small.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -107,19 +107,19 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_left_under"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="GRIPPER" multiplier="-1"/>
+            <mimic joint="GRIPPER"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.004 0.0068 0.052" rpy="0 0 0"/>
         </joint>
         
         <link name="gripper_palm_to_finger_small_right_over">
             <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi+1.1} ${pi/2}"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
             <visual>
-                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi} ${-pi/2}"/>
+                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi+1.1} ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/gripper_palm_to_finger_small.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -130,18 +130,18 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_right_over"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="GRIPPER"/>
+            <mimic joint="GRIPPER" multiplier="-1"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.0 -0.0068 0.052" rpy="0 0 0"/>
         </joint>
         <link name="gripper_palm_to_finger_small_right_under">
             <inertial>
-                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi} ${pi/2}"/>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${pi+1.1} ${pi/2}"/>
                 <mass value="0.0"/>
                 <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
             </inertial>
             <visual>
-                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi} ${-pi/2}"/>
+                <origin xyz="-0.00075 0.0 0.0" rpy="${pi/2} ${pi+1.1} ${-pi/2}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/gripper_palm_to_finger_small.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -152,7 +152,7 @@
             <parent link="gripper_base"/>
             <child link="gripper_palm_to_finger_small_right_under"/>
             <axis xyz="1 0 0"/>
-            <mimic joint="GRIPPER"/>
+            <mimic joint="GRIPPER" multiplier="-1"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
             <origin xyz="0.004 -0.0068 0.052" rpy="0 0 0"/>
         </joint>
@@ -183,7 +183,7 @@
             <axis xyz="1 0 0"/>
             <mimic joint="gripper_palm_to_finger_large_to_gripper_base" multiplier="-1"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
-            <origin xyz="0.002 0.0 0.0305" rpy="0.34 0 0"/>
+            <origin xyz="0.002 0.0275 0.01425" rpy="0.34 0 0"/>
         </joint>
         <link name="finger_right">
             <inertial>
@@ -211,7 +211,7 @@
             <axis xyz="1 0 0"/>
             <mimic joint="gripper_palm_to_finger_large_to_gripper_base"/>
             <limit lower="-3.14159" upper="3.14159" velocity="50.0" effort="1000.0"/>
-            <origin xyz="0.002 0.0 0.0305" rpy="-0.38 0 0"/>
+            <origin xyz="0.002 -0.0275 0.01425" rpy="-0.38 0 0"/>
         </joint>
 
         <link name="gripper_servo">

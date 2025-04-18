@@ -32,10 +32,10 @@
         <joint name="DOF_5" value="0"/>
     </group_state>
     <group_state name="open" group="Gripper">
-        <joint name="GRIPPER" value="1.1"/>
+        <joint name="GRIPPER" value="0"/>
     </group_state>
     <group_state name="close" group="Gripper">
-        <joint name="GRIPPER" value="0"/>
+        <joint name="GRIPPER" value="1.1"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="pinchers" parent_link="gripper_base" group="Gripper" parent_group="arm"/>
