@@ -33,6 +33,8 @@ sudo apt install ros-jazzy-rviz2 -y
 sudo apt install ros-jazzy-xacro -y
 # install udev
 sudo apt install udev -y
+# install cyclonedds
+sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp 
 
 pip3 install torch torchvision torchaudio --break-system-packages
 pip3 install transformers --break-system-packages
