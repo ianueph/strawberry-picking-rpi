@@ -36,7 +36,5 @@ COPY installations.sh /home/ws/.devcontainer/installations.sh
 RUN chmod +x /home/ws/.devcontainer/installations.sh
 RUN /home/ws/.devcontainer/installations.sh
 
-RUN chmod 666 /dev/ttyACM0
-
 USER $USERNAME
 CMD ["/bin/bash"]
