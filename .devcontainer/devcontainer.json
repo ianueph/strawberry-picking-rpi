@@ -51,5 +51,5 @@
        "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached",
        "source=${localEnv:HOME},target=${localEnv:HOME},type=bind,consistency=cached"
     ],
-    "postCreateCommand": "sudo rosdep update && sudo rosdep install --from-paths src --ignore-src -r -y && sudo chown -R $(whoami) /home/ws/ && sudo ln -sf /tmp/libcamera/build/src/libcamera/libcamera.so* /opt/ros/jazzy/lib/"
+    "postCreateCommand": "./.devcontainer/postCreateCommand.sh"
 }
