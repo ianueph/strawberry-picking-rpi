@@ -1,4 +1,5 @@
 #include <rclcpp/rclcpp.hpp>
+#include <moveit/robot_state/cartesian_interpolator.h>
 #include <moveit/planning_scene/planning_scene.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit/task_constructor/task.h>
@@ -129,6 +130,7 @@ mtc::Task MTCTaskNode::createTask()
   cartesian_planner->setMaxVelocityScalingFactor(1.0);
   cartesian_planner->setMaxAccelerationScalingFactor(1.0);
   cartesian_planner->setStepSize(.01);
+  cartesian_planner->setJumpThreshold(5.0);
 
   auto stage_open_hand =
       std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
@@ -157,7 +159,7 @@ mtc::Task MTCTaskNode::createTask()
       stage->properties().set("marker_ns", "approach_object");
       stage->properties().set("link", hand_frame);
       stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
-      stage->setMinMaxDistance(0.025, 0.03725);
+      stage->setMinMaxDistance(0.085, 0.15);
     
       // Set hand forward direction
       geometry_msgs::msg::Vector3Stamped vec;
@@ -182,7 +184,7 @@ mtc::Task MTCTaskNode::createTask()
                             Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitY()) *
                             Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitZ());
       grasp_frame_transform.linear() = q.matrix();
-      grasp_frame_transform.translation().z() = 0.075;
+      grasp_frame_transform.translation().z() = 0.1;
 
         // Compute IK
       auto wrapper =
