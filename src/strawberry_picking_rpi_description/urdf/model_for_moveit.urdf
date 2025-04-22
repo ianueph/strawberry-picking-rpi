@@ -294,7 +294,7 @@
     <child link="3_servo"/>
   </joint>
   <joint name="DOF_3" type="revolute">
-    <origin rpy="             0.0             0.0             -1.5707963267948966" xyz="             -0.1055             0.0             0.0"/>
+    <origin rpy="             0.0             0.0             -2.5707963267948966" xyz="             -0.1055             0.0             0.0"/>
     <limit effort="1000" lower="0" upper="3.141592653589793" velocity="6.98133333333"/>
     <axis xyz="0.0 0.0 -1"/>
     <parent link="3_long_u_type_servo_bracket"/>
