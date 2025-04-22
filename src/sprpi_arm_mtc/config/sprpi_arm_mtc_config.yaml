@@ -1,0 +1,6 @@
+mtc_node:
+  ros__parameters:
+    angle_delta: 64
+    min_solution_distance: 0.5
+    max_ik_solutions: 25
+    jump_threshold: 5.0

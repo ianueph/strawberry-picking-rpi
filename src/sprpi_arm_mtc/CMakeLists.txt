@@ -23,6 +23,7 @@ target_compile_features(sprpi_arm_mtc PUBLIC c_std_99 cxx_std_17)  # Require C99
 install(TARGETS sprpi_arm_mtc
 DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
 find_package(ament_lint_auto REQUIRED)

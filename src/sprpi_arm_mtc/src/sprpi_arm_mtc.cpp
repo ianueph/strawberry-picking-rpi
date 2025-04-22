@@ -57,7 +57,7 @@ void MTCTaskNode::setupPlanningScene()
   object.primitives[0].dimensions = { 0.05, 0.01 };
 
   geometry_msgs::msg::Pose pose;
-  pose.position.x = 0.00;
+  pose.position.x = 0.05;
   pose.position.y = -0.30;
   pose.position.z = 0.1;
   pose.orientation.z = 1.0;
@@ -108,6 +108,11 @@ mtc::Task MTCTaskNode::createTask()
   const auto& hand_group_name = "Gripper";
   const auto& hand_frame = "gripper_base";
 
+  const auto angle_delta = node_->get_parameter("angle_delta").as_int();
+  const auto min_solution_distance = node_->get_parameter("min_solution_distance").as_double();
+  const auto max_ik_solutions = node_->get_parameter("max_ik_solutions").as_int();
+  const auto jump_threshold = node_->get_parameter("jump_threshold").as_double();
+
   // Set task properties
   task.setProperty("group", arm_group_name);
   task.setProperty("eef", hand_group_name);
@@ -130,7 +135,7 @@ mtc::Task MTCTaskNode::createTask()
   cartesian_planner->setMaxVelocityScalingFactor(1.0);
   cartesian_planner->setMaxAccelerationScalingFactor(1.0);
   cartesian_planner->setStepSize(.01);
-  cartesian_planner->setJumpThreshold(5.0);
+  cartesian_planner->setJumpThreshold(jump_threshold);
 
   auto stage_open_hand =
       std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner);
@@ -176,7 +181,7 @@ mtc::Task MTCTaskNode::createTask()
       stage->properties().set("marker_ns", "grasp_pose");
       stage->setPreGraspPose("open");
       stage->setObject("object");
-      stage->setAngleDelta(M_PI / 8);
+      stage->setAngleDelta(M_PI / angle_delta);
       stage->setMonitoredStage(current_state_ptr);  // Hook into current state
 
       Eigen::Isometry3d grasp_frame_transform;
@@ -189,8 +194,8 @@ mtc::Task MTCTaskNode::createTask()
         // Compute IK
       auto wrapper =
       std::make_unique<mtc::stages::ComputeIK>("grasp pose IK", std::move(stage));
-      wrapper->setMaxIKSolutions(25);
-      wrapper->setMinSolutionDistance(0.5);
+      wrapper->setMaxIKSolutions(max_ik_solutions);
+      wrapper->setMinSolutionDistance(min_solution_distance);
       wrapper->setIKFrame(grasp_frame_transform, hand_frame);
       wrapper->properties().configureInitFrom(mtc::Stage::PARENT, { "eef", "group" });
       wrapper->properties().configureInitFrom(mtc::Stage::INTERFACE, { "target_pose" });
@@ -255,7 +260,7 @@ mtc::Task MTCTaskNode::createTask()
       // stage->setDirection(vec);
       grasp->insert(std::move(stage));
     }
-    
+
     task.add(std::move(grasp));
   }
 
