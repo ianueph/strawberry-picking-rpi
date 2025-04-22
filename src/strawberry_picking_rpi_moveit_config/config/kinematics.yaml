@@ -1,7 +1,7 @@
 arm:
   kinematics_solver: pick_ik/PickIkPlugin
-  kinematics_solver_timeout: 1.5
-  kinematics_solver_attempts: 30
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
   mode: global
   position_scale: 1.0
   rotation_scale: 0.05
