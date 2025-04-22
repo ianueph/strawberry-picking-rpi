@@ -790,4 +790,82 @@
     <parent link="kabaong"/>
     <child link="mirror_right"/>
   </joint>
+  <link name="depth_camera_mount">
+    <inertial>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.055"/>
+      <mass value="0.0"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.055"/>
+      <geometry>
+        <box size="0.037                                 0.025                                 0.11"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.055"/>
+      <geometry>
+        <box size="0.037                                 0.025                                 0.11"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="depth_camera_mount_to_kabaong" type="fixed">
+    <origin rpy="             0.0              0.0             0.0" xyz="             0.07650000000000001             0.0475             0.025"/>
+    <parent link="kabaong"/>
+    <child link="depth_camera_mount"/>
+  </joint>
+  <link name="mirror_camera_mount">
+    <inertial>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.031"/>
+      <mass value="0.0"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.031"/>
+      <geometry>
+        <box size="0.037                                 0.025                                 0.062"/>
+      </geometry>
+      <material name="wood"/>
+    </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.031"/>
+      <geometry>
+        <box size="0.037                                 0.025                                 0.062"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="mirror_camera_mount_to_kabaong" type="fixed">
+    <origin rpy="             0.0              0.0             1.5707963267948966" xyz="             0.07650000000000001             0.012499999999999997             0.025"/>
+    <parent link="kabaong"/>
+    <child link="mirror_camera_mount"/>
+  </joint>
+  <link name="mirror_camera">
+    <visual>
+      <origin rpy="0.0 0.0 -3.141592653589793" xyz="0.0125 0.0145 0.0"/>
+      <geometry>
+        <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+  </link>
+  <joint name="mirror_camera_to_mirror_camera_mount" type="fixed">
+    <origin rpy="             1.5707963267948966             0.0             0.0" xyz="             0.0             -0.0125             0.041999999999999996"/>
+    <parent link="mirror_camera_mount"/>
+    <child link="mirror_camera"/>
+  </joint>
+  <link name="depth_camera">
+    <visual>
+      <origin rpy="0.0 0.0 -3.141592653589793" xyz="0.0125 0.0145 0.0"/>
+      <geometry>
+        <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+  </link>
+  <joint name="depth_camera_to_depth_camera_mount" type="fixed">
+    <origin rpy="             1.5707963267948966             0.0             0.0" xyz="             0.0             -0.0125             0.09"/>
+    <parent link="depth_camera_mount"/>
+    <child link="depth_camera"/>
+  </joint>
 </robot>
