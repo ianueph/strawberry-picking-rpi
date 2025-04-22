@@ -189,8 +189,8 @@ mtc::Task MTCTaskNode::createTask()
         // Compute IK
       auto wrapper =
       std::make_unique<mtc::stages::ComputeIK>("grasp pose IK", std::move(stage));
-      wrapper->setMaxIKSolutions(100);
-      wrapper->setMinSolutionDistance(0.1);
+      wrapper->setMaxIKSolutions(25);
+      wrapper->setMinSolutionDistance(0.5);
       wrapper->setIKFrame(grasp_frame_transform, hand_frame);
       wrapper->properties().configureInitFrom(mtc::Stage::PARENT, { "eef", "group" });
       wrapper->properties().configureInitFrom(mtc::Stage::INTERFACE, { "target_pose" });
@@ -224,6 +224,22 @@ mtc::Task MTCTaskNode::createTask()
 
     {
       auto stage =
+          std::make_unique<mtc::stages::MoveRelative>("retreat from object", cartesian_planner);
+      stage->properties().set("marker_ns", "retreat_from_object");
+      stage->properties().set("link", hand_frame);
+      stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
+      stage->setMinMaxDistance(0.085, 0.15);
+    
+      // Set hand forward direction
+      geometry_msgs::msg::Vector3Stamped vec;
+      vec.header.frame_id = hand_frame;
+      vec.vector.z = -1.0;
+      stage->setDirection(vec);
+      grasp->insert(std::move(stage));
+    }
+
+    {
+      auto stage =
           std::make_unique<mtc::stages::MoveTo>("bring object infront of mirror", sampling_planner);
       stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
       stage->setGroup(arm_group_name);
@@ -239,7 +255,7 @@ mtc::Task MTCTaskNode::createTask()
       // stage->setDirection(vec);
       grasp->insert(std::move(stage));
     }
-
+    
     task.add(std::move(grasp));
   }
 
