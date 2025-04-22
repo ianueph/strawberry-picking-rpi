@@ -10,6 +10,20 @@
     <xacro:property name="mirror_x_size" value="0.03"/>
     <xacro:property name="mirror_y_size" value="0.105"/>
     <xacro:property name="mirror_z_size" value="0.15"/>
+
+    <xacro:property name="depth_camera_mount_x_size" value="0.037"/>
+    <xacro:property name="depth_camera_mount_y_size" value="0.025"/>
+    <xacro:property name="depth_camera_mount_z_size" value="0.110"/>
+
+    <xacro:property name="mirror_camera_mount_x_size" value="0.037"/>
+    <xacro:property name="mirror_camera_mount_y_size" value="0.025"/>
+    <xacro:property name="mirror_camera_mount_z_size" value="0.062"/>
+
+    <xacro:property name="camera_z_offset" value="0.02"/>
+
+    <xacro:property name="base_x_size" value="0.1"/>
+    <xacro:property name="base_y_size" value="0.1"/>
+    <xacro:property name="base_z_size" value="0.02"/>
     
     <xacro:macro name="robotic_base_with_accessories" params="parent_link *base_origin *joint_origin">
         <link name="kabaong">
@@ -186,6 +200,128 @@
             0.602138592"/>
             <parent link="kabaong"/>
             <child link="mirror_right"/>
+        </joint>
+
+        <link name="depth_camera_mount">
+            <inertial>
+                <origin xyz="0.0 0.0 ${depth_camera_mount_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 ${depth_camera_mount_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${depth_camera_mount_x_size} 
+                               ${depth_camera_mount_y_size} 
+                               ${depth_camera_mount_z_size}"
+                    />
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${depth_camera_mount_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${depth_camera_mount_x_size} 
+                               ${depth_camera_mount_y_size} 
+                               ${depth_camera_mount_z_size}"
+                    />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="depth_camera_mount_to_kabaong" type="fixed">
+            <origin xyz="
+            ${base_x_size/2 + depth_camera_mount_x_size/2 + 0.008}
+            ${kabaong_y_size/2 - 0.0775}
+            ${kabaong_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            0.0"/>
+            <parent link="kabaong"/>
+            <child link="depth_camera_mount"/>
+        </joint>
+        
+        <link name="mirror_camera_mount">
+            <inertial>
+                <origin xyz="0.0 0.0 ${mirror_camera_mount_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <mass value="0.0"/>
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 ${mirror_camera_mount_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${mirror_camera_mount_x_size} 
+                               ${mirror_camera_mount_y_size} 
+                               ${mirror_camera_mount_z_size}"
+                    />
+                </geometry>
+                <material name="wood"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 ${mirror_camera_mount_z_size/2}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${mirror_camera_mount_x_size} 
+                               ${mirror_camera_mount_y_size} 
+                               ${mirror_camera_mount_z_size}"
+                    />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="mirror_camera_mount_to_kabaong" type="fixed">
+            <origin xyz="
+            ${base_x_size/2 + mirror_camera_mount_x_size/2 + 0.008}
+            ${kabaong_y_size/2 - mirror_camera_mount_y_size/2 - 0.1}
+            ${kabaong_z_size/2}" 
+            rpy="
+            0.0 
+            0.0
+            ${pi/2}"/>
+            <parent link="kabaong"/>
+            <child link="mirror_camera_mount"/>
+        </joint>
+
+        <link name="mirror_camera">
+            <visual>
+                <origin xyz="0.0125 0.0145 0.0" rpy="0.0 0.0 ${-pi}"/>
+                <geometry>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="black_plastic"/>
+            </visual>
+        </link>
+        <joint name="mirror_camera_to_mirror_camera_mount" type="fixed">
+            <origin xyz="
+            0.0
+            -0.0125
+            ${mirror_camera_mount_z_size - camera_z_offset}"
+            rpy="
+            ${pi/2}
+            0.0
+            0.0"/>
+            <parent link="mirror_camera_mount"/>
+            <child link="mirror_camera"/>
+        </joint>
+
+        <link name="depth_camera">
+            <visual>
+                <origin xyz="0.0125 0.0145 0.0" rpy="0.0 0.0 ${-pi}"/>
+                <geometry>
+                    <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="black_plastic"/>
+            </visual>
+        </link>
+        <joint name="depth_camera_to_depth_camera_mount" type="fixed">
+            <origin xyz="
+            0.0
+            -0.0125
+            ${depth_camera_mount_z_size - camera_z_offset}"
+            rpy="
+            ${pi/2}
+            0.0
+            0.0"/>
+            <parent link="depth_camera_mount"/>
+            <child link="depth_camera"/>
         </joint>
     </xacro:macro>
 </robot>

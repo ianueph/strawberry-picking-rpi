@@ -1,1 +1,3 @@
-## All meshes courtesy of automaticaddison.com[https://automaticaddison.com/how-to-build-a-diy-aluminium-6-dof-robotic-arm-from-scratch/] 
+## The 6DOF Robot Arm .stl files are adapted from ["final_robotic_arm_6dof"](https://drive.google.com/drive/folders/1qxG93VuVd_5UFDO-JclJPosKGj1U45Qc) by [Automatic Addison](https://www.linkedin.com/company/automaticaddison/) from [automaticaddison.com](https://automaticaddison.com/how-to-build-a-diy-aluminium-6-dof-robotic-arm-from-scratch/) / Some files are centered and some are merged
+
+## The [Raspberry Pi Camera Module 3 / V3 or "Pi Camera Module v3.STL"](https://www.printables.com/model/368779-raspberry-pi-camera-module-3-v3) file is made by [DocWeebl](https://www.printables.com/@DocWeebl), used under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)

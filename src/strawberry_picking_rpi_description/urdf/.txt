@@ -1,0 +1,5 @@
+rcl_interfaces::msg::ParameterDescriptor param_descr_camera_link;
+  param_descr_camera_link.description = "the camera_link to be published to header";
+  param_descr_camera_link.additional_constraints = "string e.g. 'gripper_base', 'depth_camera', 'mirror_camera' ";
+  param_descr_camera_link.read_only = true;
+  const libcamera::Size sensor_size = get_sensor_format(declare_parameter<std::string>("camera_link", {}, param_descr_camera_link));
