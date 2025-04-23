@@ -1,12 +1,15 @@
 [submodule "src/camera_ros"]
 	path = src/camera_ros
 	url = https://github.com/ianueph/camera_ros.git
+	branch = main
 [submodule "src/depth_anything_v2_ros2"]
 	path = src/depth_anything_v2_ros2
 	url = https://github.com/ianueph/depth_anything_v2_ros2.git
+	branch = main
 [submodule "src/yolo_ros"]
 	path = src/yolo_ros
 	url = https://github.com/jiepee/yolo_ros.git
+	branch = main
 [submodule "src/moveit_task_constructor"]
 	path = src/moveit_task_constructor
 	url = https://github.com/moveit/moveit_task_constructor.git
