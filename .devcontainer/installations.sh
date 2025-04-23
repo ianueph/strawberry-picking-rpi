@@ -35,6 +35,9 @@ sudo apt install ros-jazzy-xacro -y
 sudo apt install udev -y
 # install cyclonedds
 sudo apt install ros-jazzy-rmw-cyclonedds-cpp   
+# install all submodules
+sudo cd ..
+sudo git submodule update --init --recursive
 
 pip3 install torch torchvision torchaudio --break-system-packages
 pip3 install transformers --break-system-packages
