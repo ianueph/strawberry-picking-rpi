@@ -40,4 +40,5 @@ sudo cd ..
 sudo git submodule update --init --recursive
 
 pip3 install torch torchvision torchaudio --break-system-packages
+pip3 install -r ../src/yolo_ros/requirements.txt
 pip3 install transformers --break-system-packages

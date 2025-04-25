@@ -51,5 +51,5 @@
        "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached",
        "source=${localEnv:HOME},target=${localEnv:HOME},type=bind,consistency=cached"
     ],
-    "postCreateCommand": "./.devcontainer/postCreateCommand.sh"
+    "postCreateCommand": "sudo ./.devcontainer/postCreateCommand.sh"
 }
