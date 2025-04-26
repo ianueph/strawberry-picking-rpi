@@ -18,6 +18,7 @@
 #endif
 
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("main_task_node");
+using namespace std::chrono_literals;
 namespace mtc = moveit::task_constructor;
 
 class SprpiMainTaskNode
@@ -29,6 +30,7 @@ public:
 	void initPlanners();
 	void depthDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg);
 	void mirrorDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg);
+	void loopCallback();
     mtc::Task createPickTask(const std::string object_id);
     mtc::Task createPlaceTask(bool is_diseased, const std::string object_id);
 	void doTask(const mtc::Task task);
@@ -42,6 +44,14 @@ private:
         double jump_threshold;
     };
 
+	struct ArmStates {
+		bool is_picking;
+		bool is_infront_of_mirror;
+		std::string picked_object;
+	};
+
+	
+	ArmStates arm_states_;
     IKParameters ik_params_;
 
     rclcpp::Node::SharedPtr node_;
@@ -50,6 +60,7 @@ private:
     rclcpp::Subscription<yolo_msgs::msg::DetectionArray>::SharedPtr depth_detections_subscription_;
     rclcpp::Subscription<yolo_msgs::msg::DetectionArray>::SharedPtr mirror_detections_subscription_;
 	bool is_diseased_;
+	std::string picked_object_id_;
     yolo_msgs::msg::DetectionArray depth_detections_;
     yolo_msgs::msg::DetectionArray mirror_detections_;
 
@@ -82,16 +93,18 @@ SprpiMainTaskNode::SprpiMainTaskNode(const rclcpp::NodeOptions& options)
     mirror_detections_topic_name_ = node_->get_parameter("mirror_detections_topic_name_").as_string();
 
     depth_detections_subscription_= node_->create_subscription<yolo_msgs::msg::DetectionArray>(
-        "/yolo/depth/detections", 
+        depth_detections_topic_name_, 
         10, 
         std::bind(&SprpiMainTaskNode::depthDetectionsCallback, this, std::placeholders::_1)
     );
 
     mirror_detections_subscription_= node_->create_subscription<yolo_msgs::msg::DetectionArray>(
-        "/yolo/mirror/detections", 
+        mirror_detections_topic_name_, 
         10, 
         std::bind(&SprpiMainTaskNode::mirrorDetectionsCallback, this, std::placeholders::_1)
     );
+
+	node_->create_wall_timer(500ms, std::bind(&SprpiMainTaskNode::loopCallback, this));
 }
 
 rclcpp::node_interfaces::NodeBaseInterface::SharedPtr SprpiMainTaskNode::getNodeBaseInterface()
@@ -115,7 +128,8 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 {   
     std::vector<moveit_msgs::msg::CollisionObject> collision_objects;
 	std::set<std::string> current_object_ids;
-	collision_objects.reserve(msg->detections.size());
+	collision_objects.reserve(msg->detections.size() + 1);
+	current_object_ids.insert(arm_states_.picked_object);
 
     for (const auto &detection : msg->detections) {
 		auto id = detection.id;
@@ -154,20 +168,30 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 {   
 	is_diseased_ = true;
 	for (const auto &detection : msg->detections) {
-		auto id = detection.id;
 		auto class_name = detection.class_name;
-		auto frame_id =  detection.bbox3d.frame_id;
-		auto dimensions = detection.bbox3d.size;
-		auto pose = detection.bbox3d.center;
 
 		if (class_name == "diseased") {
 			is_diseased_ = true;
 		} 
     }
+
+	if (arm_states_.is_infront_of_mirror) {
+		doTask(createPlaceTask(is_diseased_, arm_states_.picked_object));
+	}
+}
+
+void SprpiMainTaskNode::loopCallback()
+{
+	if (!arm_states_.is_picking) {
+		doTask(createPickTask(*previous_object_ids_.begin()));
+	} 
 }
 
 mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
 {
+	picked_object_id_ = object_id;
+	arm_states_.is_picking = true;
+
     mtc::Task task;
     task.stages()->setName("pick_task");
     task.loadRobotModel(node_);
@@ -303,6 +327,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
         task.add(std::move(grasp));
       }
     
+	arm_states_.is_infront_of_mirror = true;
     return task;
 }
 
@@ -376,44 +401,52 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 			stage->detachObject(object_id, hand_frame_);
 			place->insert(std::move(stage));
 		}
+
+		{
+			auto stage = std::make_unique<mtc::stages::MoveTo>("move to default position", interpolation_planner_);
+			stage->setGroup(arm_group_name_);
+			stage->setGoal("Default");
+			place->insert(std::move(stage));
+		}
 	}
 
-    mtc::Stage* attach_object_stage =
-    nullptr;  // Forward attach_object_stage to place pose generator
+	
 
-
+	arm_states_.is_picking = false;
+	arm_states_.is_infront_of_mirror = false;
+	picked_object_id_ = "";
 	return task;
 }
 
 void SprpiMainTaskNode::doTask(mtc::Task task)
 {
-  try
-  {
-    task.init();
-  }
-  catch (mtc::InitStageException& e)
-  {
-    RCLCPP_ERROR_STREAM(LOGGER, e);
-    return;
-  }
+	try
+	{
+		task.init();
+	}
+	catch (mtc::InitStageException& e)
+	{
+		RCLCPP_ERROR_STREAM(LOGGER, e);
+		return;
+	}
 
-  if (!task.plan(5))
-  {
-    RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
-    return;
-  }
-  task.introspection().publishSolution(*task.solutions().front());
+	if (!task.plan(5))
+	{
+		RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
+		return;
+	}
+	task.introspection().publishSolution(*task.solutions().front());
 
-  auto result = task.execute(*task.solutions().front());
-  if (result.val != moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
-  {
-    RCLCPP_ERROR_STREAM(LOGGER, "Task execution failed with error code: " << result.val);
-	RCLCPP_ERROR_STREAM(LOGGER, ", error message: " << result.message);
-	RCLCPP_ERROR_STREAM(LOGGER, ", error source: " << result.source);
-    return;
-  }
-  
-  return;
+	auto result = task.execute(*task.solutions().front());
+	if (result.val != moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
+	{
+		RCLCPP_ERROR_STREAM(LOGGER, "Task execution failed with error code: " << result.val);
+		RCLCPP_ERROR_STREAM(LOGGER, ", error message: " << result.message);
+		RCLCPP_ERROR_STREAM(LOGGER, ", error source: " << result.source);
+		return;
+	}
+	
+	return;
 }
 
 int main(int argc, char** argv)
