@@ -1,0 +1,11 @@
+main_task_node:
+  ros__parameters:
+    angle_delta: 64
+    min_solution_distance: 0.5
+    max_ik_solutions: 25
+    jump_threshold: 5.0
+    arm_group_name_: arm
+    hand_group_name_: Gripper
+    hand_frame_: gripper_base
+    depth_detections_topic_name_: /yolo/depth/detections
+    mirror_detections_topic_name_: /yolo/mirror/detections
