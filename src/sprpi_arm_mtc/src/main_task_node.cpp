@@ -80,17 +80,26 @@ SprpiMainTaskNode::SprpiMainTaskNode(const rclcpp::NodeOptions& options)
 {
     // Task planning parameters
     ik_params_.angle_delta = node_->get_parameter("angle_delta").as_int();
+	RCLCPP_INFO_ONCE(LOGGER, "angle_delta is set to: $d", ik_params_.angle_delta);
     ik_params_.min_solution_distance = node_->get_parameter("min_solution_distance").as_double();
+	RCLCPP_INFO_ONCE(LOGGER, "min_solution_distance is set to: $d", ik_params_.min_solution_distance);
     ik_params_.max_ik_solutions = node_->get_parameter("max_ik_solutions").as_int();
+	RCLCPP_INFO_ONCE(LOGGER, "max_ik_solutions is set to: $d", ik_params_.max_ik_solutions);
     ik_params_.jump_threshold = node_->get_parameter("jump_threshold").as_double();
+	RCLCPP_INFO_ONCE(LOGGER, "jump_threshold is set to: $d", ik_params_.jump_threshold);
 
     // Robot description parameters
     arm_group_name_ = node_->get_parameter("arm_group_name_").as_string();
+	RCLCPP_INFO_ONCE(LOGGER, "arm_group_name_ is set to: $d", arm_group_name_);
     hand_group_name_ = node_->get_parameter("hand_group_name_").as_string();
+	RCLCPP_INFO_ONCE(LOGGER, "hand_group_name_ is set to: $d", hand_group_name_);
     hand_frame_ = node_->get_parameter("hand_frame_").as_string();
+	RCLCPP_INFO_ONCE(LOGGER, "hand_frame_ is set to: $d", hand_frame_);
 
 	depth_detections_topic_name_ = node_->get_parameter("depth_detections_topic_name_").as_string();
+	RCLCPP_INFO_ONCE(LOGGER, "depth_detections_topic_name_ is set to: $d", depth_detections_topic_name_);
     mirror_detections_topic_name_ = node_->get_parameter("mirror_detections_topic_name_").as_string();
+	RCLCPP_INFO_ONCE(LOGGER, "mirror_detections_topic_name_ is set to: $d", mirror_detections_topic_name_);
 
     depth_detections_subscription_= node_->create_subscription<yolo_msgs::msg::DetectionArray>(
         depth_detections_topic_name_, 
@@ -176,6 +185,10 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
     }
 
 	if (arm_states_.is_infront_of_mirror) {
+        RCLCPP_INFO(
+            LOGGER, "Creating and executing place task on: %s after determining it was %s", 
+            *previous_object_ids_.begin(), 
+            is_diseased_ ? "diseased" : "NOT diseased");
 		doTask(createPlaceTask(is_diseased_, arm_states_.picked_object));
 	}
 }
@@ -183,6 +196,7 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 void SprpiMainTaskNode::loopCallback()
 {
 	if (!arm_states_.is_picking) {
+        RCLCPP_INFO(LOGGER, "Creating and executing pick task on: %s", *previous_object_ids_.begin());
 		doTask(createPickTask(*previous_object_ids_.begin()));
 	} 
 }
@@ -409,8 +423,6 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 			place->insert(std::move(stage));
 		}
 	}
-
-	
 
 	arm_states_.is_picking = false;
 	arm_states_.is_infront_of_mirror = false;
