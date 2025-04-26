@@ -30,7 +30,8 @@ public:
 	void depthDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg);
 	void mirrorDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg);
     mtc::Task createPickTask(const std::string object_id);
-    mtc::Task createPlaceTask();
+    mtc::Task createPlaceTask(bool is_diseased, const std::string object_id);
+	void doTask(const mtc::Task task);
 
 private:
 
@@ -48,6 +49,7 @@ private:
     std::string mirror_detections_topic_name_;
     rclcpp::Subscription<yolo_msgs::msg::DetectionArray>::SharedPtr depth_detections_subscription_;
     rclcpp::Subscription<yolo_msgs::msg::DetectionArray>::SharedPtr mirror_detections_subscription_;
+	bool is_diseased_;
     yolo_msgs::msg::DetectionArray depth_detections_;
     yolo_msgs::msg::DetectionArray mirror_detections_;
 
@@ -150,7 +152,18 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 
 void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg)
 {   
+	is_diseased_ = true;
+	for (const auto &detection : msg->detections) {
+		auto id = detection.id;
+		auto class_name = detection.class_name;
+		auto frame_id =  detection.bbox3d.frame_id;
+		auto dimensions = detection.bbox3d.size;
+		auto pose = detection.bbox3d.center;
 
+		if (class_name == "diseased") {
+			is_diseased_ = true;
+		} 
+    }
 }
 
 mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
@@ -293,10 +306,114 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     return task;
 }
 
-mtc::Task SprpiMainTaskNode::createPlaceTask()
+mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string object_id)
 {
+	std::string basket = (is_diseased) ? "pre_drop_diseased" : "pre_drop_healthy";
 	mtc::Task task;
+    task.stages()->setName("place_task");
+    task.loadRobotModel(node_);
+  
+    // Set task properties
+    task.setProperty("group", arm_group_name_);
+    task.setProperty("eef", hand_group_name_);
+    task.setProperty("ik_frame", hand_frame_);
+// Disable warnings for this line, as it's a variable that's set but not used in this example
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+  	mtc::Stage* current_state_ptr = nullptr;  // Forward current_state on to grasp pose generator
+#pragma GCC diagnostic pop
+
+    auto stage_state_current = std::make_unique<mtc::stages::CurrentState>("current");
+    current_state_ptr = stage_state_current.get();
+    task.add(std::move(stage_state_current));
+
+    {
+		auto place = std::make_unique<mtc::SerialContainer>("place into basket");
+		task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
+        place->properties().configureInitFrom(mtc::Stage::PARENT,
+                                              { "eef", "group", "ik_frame" });
+		{
+			auto stage = std::make_unique<mtc::stages::MoveTo>("raise from mirror", interpolation_planner_);
+			stage->setGroup(arm_group_name_);
+			stage->setGoal("raise_from_mirror");
+			place->insert(std::move(stage));
+		}
+
+		{
+			auto stage = std::make_unique<mtc::stages::MoveTo>("rotate to baskets", interpolation_planner_);
+			stage->setGroup(arm_group_name_);
+			stage->setGoal("rotate_to_basket");
+			place->insert(std::move(stage));
+		}
+
+		{
+			auto stage = std::make_unique<mtc::stages::MoveTo>("move to basket", interpolation_planner_);
+			stage->setGroup(arm_group_name_);
+			stage->setGoal(basket);
+			place->insert(std::move(stage));
+		}
+
+		{
+			auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner_);
+			stage->setGroup(hand_group_name_);
+			stage->setGoal("open");
+			place->insert(std::move(stage));
+		}
+
+		{
+			auto stage =
+				std::make_unique<mtc::stages::ModifyPlanningScene>("forbid collision (hand,object)");
+			stage->allowCollisions(object_id,
+								  task.getRobotModel()
+									  ->getJointModelGroup(hand_group_name_)
+									  ->getLinkModelNamesWithCollisionGeometry(),
+								  false);
+			place->insert(std::move(stage));
+		}
+
+		{
+			auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("detach object");
+			stage->detachObject(object_id, hand_frame_);
+			place->insert(std::move(stage));
+		}
+	}
+
+    mtc::Stage* attach_object_stage =
+    nullptr;  // Forward attach_object_stage to place pose generator
+
+
 	return task;
+}
+
+void SprpiMainTaskNode::doTask(mtc::Task task)
+{
+  try
+  {
+    task.init();
+  }
+  catch (mtc::InitStageException& e)
+  {
+    RCLCPP_ERROR_STREAM(LOGGER, e);
+    return;
+  }
+
+  if (!task.plan(5))
+  {
+    RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
+    return;
+  }
+  task.introspection().publishSolution(*task.solutions().front());
+
+  auto result = task.execute(*task.solutions().front());
+  if (result.val != moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
+  {
+    RCLCPP_ERROR_STREAM(LOGGER, "Task execution failed with error code: " << result.val);
+	RCLCPP_ERROR_STREAM(LOGGER, ", error message: " << result.message);
+	RCLCPP_ERROR_STREAM(LOGGER, ", error source: " << result.source);
+    return;
+  }
+  
+  return;
 }
 
 int main(int argc, char** argv)
