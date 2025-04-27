@@ -133,6 +133,9 @@ def generate_launch_description():
         )
     )
     
+    ## TODO:    add yolo nodes for object det and image class
+    ##          add launch file for task planning
+    
     return LaunchDescription([
         depth_camera_launch,
         depth_camera_throttle,
