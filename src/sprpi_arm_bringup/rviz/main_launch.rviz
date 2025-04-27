@@ -1,0 +1,584 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Image1
+        - /Image1/Topic1
+        - /PointCloud21
+      Splitter Ratio: 0.5
+    Tree Height: 626
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 0.800000011920929
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Links:
+        1_l_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        1_u_type_robot_waist_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        2_u_type_robot_waist_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        3_u_type_robot_waist_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        4_long_u_type_servo_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        4_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        4_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        5_multi_functional_servo_bracket_with_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        5_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        basket_diseased:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        basket_healthy:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        depth_camera:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        depth_camera_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        finger_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        finger_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_large:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_large_lo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_left_over:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_left_under:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_right_over:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_palm_to_finger_small_right_under:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper_servo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        kabaong:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mirror_camera:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mirror_camera_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mirror_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mirror_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Mass Properties:
+        Inertia: false
+        Mass: false
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        1_l_type_servo_bracket:
+          Value: true
+        1_long_u_type_servo_bracket:
+          Value: true
+        1_multi_functional_servo_bracket_with_servo:
+          Value: true
+        1_servo:
+          Value: true
+        1_u_type_robot_waist_bracket:
+          Value: true
+        2_long_u_type_servo_bracket:
+          Value: true
+        2_multi_functional_servo_bracket_with_servo:
+          Value: true
+        2_servo:
+          Value: true
+        2_u_type_robot_waist_bracket:
+          Value: true
+        3_long_u_type_servo_bracket:
+          Value: true
+        3_multi_functional_servo_bracket_with_servo:
+          Value: true
+        3_servo:
+          Value: true
+        3_u_type_robot_waist_bracket:
+          Value: true
+        4_long_u_type_servo_bracket:
+          Value: true
+        4_multi_functional_servo_bracket_with_servo:
+          Value: true
+        4_servo:
+          Value: true
+        5_multi_functional_servo_bracket_with_servo:
+          Value: true
+        5_servo:
+          Value: true
+        All Enabled: true
+        base_link:
+          Value: true
+        basket_diseased:
+          Value: true
+        basket_healthy:
+          Value: true
+        depth_camera:
+          Value: true
+        depth_camera_mount:
+          Value: true
+        finger_left:
+          Value: true
+        finger_right:
+          Value: true
+        gripper_base:
+          Value: true
+        gripper_palm_to_finger_large:
+          Value: true
+        gripper_palm_to_finger_large_lo:
+          Value: true
+        gripper_palm_to_finger_small_left_over:
+          Value: true
+        gripper_palm_to_finger_small_left_under:
+          Value: true
+        gripper_palm_to_finger_small_right_over:
+          Value: true
+        gripper_palm_to_finger_small_right_under:
+          Value: true
+        gripper_servo:
+          Value: true
+        kabaong:
+          Value: true
+        mirror_camera:
+          Value: true
+        mirror_camera_mount:
+          Value: true
+        mirror_left:
+          Value: true
+        mirror_right:
+          Value: true
+        world:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree:
+        world:
+          base_link:
+            1_u_type_robot_waist_bracket:
+              2_u_type_robot_waist_bracket:
+                {}
+              3_u_type_robot_waist_bracket:
+                1_multi_functional_servo_bracket_with_servo:
+                  1_long_u_type_servo_bracket:
+                    2_multi_functional_servo_bracket_with_servo:
+                      2_long_u_type_servo_bracket:
+                        3_long_u_type_servo_bracket:
+                          3_multi_functional_servo_bracket_with_servo:
+                            1_l_type_servo_bracket:
+                              4_long_u_type_servo_bracket:
+                                4_multi_functional_servo_bracket_with_servo:
+                                  4_servo:
+                                    {}
+                                  5_multi_functional_servo_bracket_with_servo:
+                                    5_servo:
+                                      {}
+                                    gripper_base:
+                                      gripper_palm_to_finger_large:
+                                        finger_left:
+                                          {}
+                                      gripper_palm_to_finger_large_lo:
+                                        finger_right:
+                                          {}
+                                      gripper_palm_to_finger_small_left_over:
+                                        {}
+                                      gripper_palm_to_finger_small_left_under:
+                                        {}
+                                      gripper_palm_to_finger_small_right_over:
+                                        {}
+                                      gripper_palm_to_finger_small_right_under:
+                                        {}
+                                      gripper_servo:
+                                        {}
+                            3_servo:
+                              {}
+                      2_servo:
+                        {}
+                  1_servo:
+                    {}
+            kabaong:
+              basket_diseased:
+                {}
+              basket_healthy:
+                {}
+              depth_camera_mount:
+                depth_camera:
+                  {}
+              mirror_camera_mount:
+                mirror_camera:
+                  {}
+              mirror_left:
+                {}
+              mirror_right:
+                {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 0.5
+      Class: rviz_default_plugins/CameraInfo
+      Color: 85; 255; 255
+      Edge color: 125; 125; 125
+      Enabled: true
+      Far clip: 1
+      Name: CameraInfo
+      Not show side polygons: true
+      Show edges: true
+      Show polygons: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /depth_camera/camera_info
+      Value: true
+    - Alpha: 0.5
+      Class: rviz_default_plugins/CameraInfo
+      Color: 85; 255; 255
+      Edge color: 125; 125; 125
+      Enabled: true
+      Far clip: 1
+      Name: CameraInfo
+      Not show side polygons: true
+      Show edges: true
+      Show polygons: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /mirror_camera/camera_info
+      Value: true
+    - Class: rviz_default_plugins/Camera
+      Enabled: true
+      Far Plane Distance: 100
+      Image Rendering: background and overlay
+      Name: Camera
+      Overlay Alpha: 0.5
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /depth_camera/image_raw_throttle
+      Value: true
+      Visibility:
+        Camera: true
+        CameraInfo: true
+        Grid: true
+        Image: true
+        PointCloud2: true
+        RobotModel: true
+        TF: true
+        Value: false
+      Zoom Factor: 1
+    - Class: rviz_default_plugins/Camera
+      Enabled: true
+      Far Plane Distance: 100
+      Image Rendering: background and overlay
+      Name: Camera
+      Overlay Alpha: 0.5
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /mirror_camera/image_raw_throttle
+      Value: true
+      Visibility:
+        Camera: true
+        CameraInfo: true
+        Grid: true
+        Image: true
+        PointCloud2: true
+        RobotModel: true
+        TF: true
+        Value: false
+      Zoom Factor: 1
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /depth_camera/depth/image_raw
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: -0.31275713443756104
+        Min Value: -0.5288876295089722
+        Value: true
+      Axis: Y
+      Channel Name: intensity
+      Class: rviz_default_plugins/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: AxisColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /points
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 2.0960867404937744
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0.13019973039627075
+        Y: -0.4693182110786438
+        Z: -0.04507268965244293
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.824999988079071
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.35181450843811035
+    Saved: ~
+Window Geometry:
+  Camera:
+    collapsed: false
+  Displays:
+    collapsed: false
+  Height: 841
+  Hide Left Dock: false
+  Hide Right Dock: false
+  Image:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd000000020000000000000156000002f3fc0200000003fb000000100044006900730070006c006100790073010000003b000002f3000000c700fffffffb0000000a00560069006500770073000000020900000125000000a000fffffffb0000000c00430061006d006500720061010000019a0000019400000000000000000000000100000140000002f3fc0200000003fb0000000c00430061006d006500720061010000003b000000b40000001600fffffffb0000000c00430061006d00650072006101000000f50000010a0000001600fffffffb0000000a0049006d0061006700650100000205000001290000001600ffffff0000035e000002f300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Views:
+    collapsed: false
+  Width: 1536
+  X: 0
+  Y: 23
