@@ -149,22 +149,22 @@ def generate_launch_description():
                 get_package_share_directory("yolo_bringup"),
                 "launch",
                 "yolov8.launch.py"
-            ),
-            launch_arguments={
-                "model": "/home/ws/src/yolo_ros/yolo_bringup/launch/strawberry_object_tracking.pt",
-                "input_image_topic": "/depth_camera/image_rect",
-                "target_frame": "depth_camera",
-                "image_reliability": "2",
-                "depth_image_reliability": "2",
-                "depth_info_reliability": "2",
-                "depth_image_units_divisor": "1",
-                "input_depth_info_topic": "/depth_camera/depth/camera_info",
-                "input_depth_topic": "/depth_camera/depth/image_raw",
-                "use_3d": "True",
-                "device": "cpu",
-                "namespace": "object_detection",
-            }.items()
-        )
+            )
+        ),
+        launch_arguments={
+            "model": "/home/ws/src/yolo_ros/yolo_bringup/launch/strawberry_object_tracking.pt",
+            "input_image_topic": "/depth_camera/image_rect",
+            "target_frame": "depth_camera",
+            "image_reliability": "2",
+            "depth_image_reliability": "2",
+            "depth_info_reliability": "2",
+            "depth_image_units_divisor": "1",
+            "input_depth_info_topic": "/depth_camera/depth/camera_info",
+            "input_depth_topic": "/depth_camera/depth/image_raw",
+            "use_3d": "True",
+            "device": "cpu",
+            "namespace": "object_detection",
+        }.items()
     )
     healthy_diseased_classification_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -172,11 +172,11 @@ def generate_launch_description():
                 get_package_share_directory("yolo_bringup"),
                 "launch",
                 "yolov8.launch.py"
-            ),
-            launch_arguments={
+            )
+        ),
+        launch_arguments={
 
-            }.items()
-        )
+        }.items()
     )
     
     return LaunchDescription([
@@ -190,5 +190,5 @@ def generate_launch_description():
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
-        healthy_diseased_classification_launch,
+        #healthy_diseased_classification_launch,
     ])
