@@ -1,6 +1,7 @@
 import os
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
@@ -8,6 +9,14 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
+    
+    ## declare params
+    image_frequency = LaunchConfiguration("image_frequency")
+    declare_image_frequency_arg = DeclareLaunchArgument(
+        "image_frequency",
+        default_value="0.2",
+        description="The max frequency (hz) that the system will process images"
+    )
     
     ## imx708_wide will be intended to be used for depth estimation and object detection
     ## image preprocessing pipeline for the imx708_wide
@@ -37,7 +46,7 @@ def generate_launch_description():
         arguments=[
             "messages",
             "/depth_camera/image_raw",
-            "0.2",
+            image_frequency,
             "/depth_camera/image_raw_throttle"
         ]
     )
@@ -81,7 +90,7 @@ def generate_launch_description():
         arguments=[
             "messages",
             "/mirror_camera/image_raw",
-            "0.2",
+            image_frequency,
             "/mirror_camera/image_raw_throttle"
         ]
     )
@@ -133,10 +142,45 @@ def generate_launch_description():
         )
     )
     
-    ## TODO:    add yolo nodes for object det and image class
-    ##          add launch file for task planning
+    ## yolo nodes for 
+    strawberry_object_tracking_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "yolov8.launch.py"
+            ),
+            launch_arguments={
+                "model": "/home/ws/src/yolo_ros/yolo_bringup/launch/strawberry_object_tracking.pt",
+                "input_image_topic": "/depth_camera/image_rect",
+                "target_frame": "depth_camera",
+                "image_reliability": "2",
+                "depth_image_reliability": "2",
+                "depth_info_reliability": "2",
+                "depth_image_units_divisor": "1",
+                "input_depth_info_topic": "/depth_camera/depth/camera_info",
+                "input_depth_topic": "/depth_camera/depth/image_raw",
+                "use_3d": "True",
+                "device": "cpu",
+                "namespace": "object_detection",
+            }.items()
+        )
+    )
+    healthy_diseased_classification_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "yolov8.launch.py"
+            ),
+            launch_arguments={
+
+            }.items()
+        )
+    )
     
     return LaunchDescription([
+        declare_image_frequency_arg,
         depth_camera_launch,
         depth_camera_throttle,
         depth_camera_image_rect,
@@ -145,5 +189,6 @@ def generate_launch_description():
         mirror_camera_image_rect,
         depth_anything_launch,
         depth_to_pointcloud,
-        sprpi_description_launch
+        strawberry_object_tracking_launch,
+        healthy_diseased_classification_launch,
     ])
