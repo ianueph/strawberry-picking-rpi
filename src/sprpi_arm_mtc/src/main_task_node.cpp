@@ -159,14 +159,19 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 		object.primitives[0].type = shape_msgs::msg::SolidPrimitive::BOX;
 		object.primitives[0].dimensions = { dimensions.x, dimensions.y, dimensions.z };
         object.primitives[1].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
-        object.primitives[1].dimensions = { 0.05, 0.003 };
-        object.primitive_poses[0].position.x= 0.0;
-        object.primitive_poses[0].position.y= ((dimensions.z+0.05)*0.5);
-        object.primitive_poses[0].position.z= 0.0;
-        object.primitive_poses[1].orientation.w= 0.7071;
-        object.primitive_poses[1].orientation.x= 0.7071;
+        object.primitives[1].dimensions = { 0.04, 0.003 };
+        object.primitive_poses[1].position.x= 0.0;
+        object.primitive_poses[1].position.y= 0.0;
+        object.primitive_poses[1].position.z= ((dimensions.z+0.04)*0.5);
+        object.primitive_poses[1].orientation.w= 0.0;
+        object.primitive_poses[1].orientation.x= 0.0;
         object.primitive_poses[1].orientation.y= 0.0;
         object.primitive_poses[1].orientation.z= 0.0;
+        pose.orientation.w= -0.7071;
+        pose.orientation.x= 0.7071;
+        pose.orientation.y= 0.0;
+        pose.orientation.z= 0.0;
+
 		object.pose = pose;
 
         if (class_name == "ripe" || class_name == "diseased") {
@@ -281,7 +286,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
           stage->properties().set("marker_ns", "approach_object");
           stage->properties().set("link", hand_frame_);
           stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
-          stage->setMinMaxDistance(0.085, 0.15);
+          stage->setMinMaxDistance(0.01, 0.15);
         
           // Set hand forward direction
           geometry_msgs::msg::Vector3Stamped vec;
@@ -292,6 +297,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
         }
     
         {
+          moveit::planning_interface::PlanningSceneInterface psi;
           // Sample grasp pose
           auto stage = std::make_unique<mtc::stages::GenerateGraspPose>("generate grasp pose");
           stage->properties().configureInitFrom(mtc::Stage::PARENT);
@@ -307,6 +313,8 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
                                 Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitZ());
           grasp_frame_transform.linear() = q.matrix();
           grasp_frame_transform.translation().z() = 0.1;
+          std::double_t object_height = psi.getObjects({object_id}).at(object_id).primitives[0].dimensions[2];
+          grasp_frame_transform.translation().x() = -((object_height+0.04)*0.5);
     
             // Compute IK
           auto wrapper =
@@ -350,7 +358,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
           stage->properties().set("marker_ns", "retreat_from_object");
           stage->properties().set("link", hand_frame_);
           stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
-          stage->setMinMaxDistance(0.085, 0.15);
+          stage->setMinMaxDistance(0.01, 0.15);
         
           // Set hand forward direction
           geometry_msgs::msg::Vector3Stamped vec;
