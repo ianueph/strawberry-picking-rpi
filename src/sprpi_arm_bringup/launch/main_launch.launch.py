@@ -43,24 +43,26 @@ def generate_launch_description():
         package="topic_tools",
         executable="throttle",
         name="depth_camera_throttle",
-        output="screen",
+        output="log",
         arguments=[
             "messages",
             "/depth_camera/image_raw",
             image_frequency,
-            "/depth_camera/image_raw_throttle"
+            "/depth_camera/image_raw_throttle",
+            '--ros-args', '--log-level', 'error'
         ]
     )
     depth_camera_image_rect = Node(
         package="image_proc",
         executable="rectify_node",
         name="depth_camera_rectification",
-        output="screen",
+        output="log",
         remappings=[
             ("image", "/depth_camera/image_raw_throttle"),
             ("camera_info", "/depth_camera/camera_info"),
             ("image_rect", "/depth_camera/image_rect")
-        ]
+        ],
+        arguments=['--ros-args', '--log-level', 'error']
     )
     
     ## imx708 will be intended to be used for image classification
@@ -87,19 +89,20 @@ def generate_launch_description():
         package="topic_tools",
         executable="throttle",
         name="mirror_camera_throttle",
-        output="screen",
+        output="log",
         arguments=[
             "messages",
             "/mirror_camera/image_raw",
             image_frequency,
-            "/mirror_camera/image_raw_throttle"
+            "/mirror_camera/image_raw_throttle",
+            '--ros-args', '--log-level', 'error'
         ]
     )
     mirror_camera_image_rect = Node(
         package="image_proc",
         executable="rectify_node",
         name="mirror_camera_rectification",
-        output="screen",
+        output="log",
         remappings=[
             ("image", "/mirror_camera/image_raw_throttle"),
             ("camera_info", "/mirror_camera/camera_info"),
