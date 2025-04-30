@@ -45,9 +45,9 @@ private:
     };
 
 	struct ArmStates {
-		bool is_picking;
-		bool is_infront_of_mirror;
-		std::string picked_object;
+		bool is_picking = false;
+		bool is_infront_of_mirror = false;
+		std::string picked_object = "";
 	};
 
 	
@@ -59,8 +59,8 @@ private:
     std::string mirror_detections_topic_name_;
     rclcpp::Subscription<yolo_msgs::msg::DetectionArray>::SharedPtr depth_detections_subscription_;
     rclcpp::Subscription<yolo_msgs::msg::DetectionArray>::SharedPtr mirror_detections_subscription_;
+    rclcpp::TimerBase::SharedPtr loop_;
 	bool is_diseased_;
-	std::string picked_object_id_;
     yolo_msgs::msg::DetectionArray depth_detections_;
     yolo_msgs::msg::DetectionArray mirror_detections_;
 
@@ -80,26 +80,26 @@ SprpiMainTaskNode::SprpiMainTaskNode(const rclcpp::NodeOptions& options)
 {
     // Task planning parameters
     ik_params_.angle_delta = node_->get_parameter("angle_delta").as_int();
-	RCLCPP_INFO_ONCE(LOGGER, "angle_delta is set to: $d", ik_params_.angle_delta);
+	RCLCPP_INFO_ONCE(LOGGER, "angle_delta is set to: %ld", ik_params_.angle_delta);
     ik_params_.min_solution_distance = node_->get_parameter("min_solution_distance").as_double();
-	RCLCPP_INFO_ONCE(LOGGER, "min_solution_distance is set to: $d", ik_params_.min_solution_distance);
+	RCLCPP_INFO_ONCE(LOGGER, "min_solution_distance is set to: %f", ik_params_.min_solution_distance);
     ik_params_.max_ik_solutions = node_->get_parameter("max_ik_solutions").as_int();
-	RCLCPP_INFO_ONCE(LOGGER, "max_ik_solutions is set to: $d", ik_params_.max_ik_solutions);
+	RCLCPP_INFO_ONCE(LOGGER, "max_ik_solutions is set to: %ld", ik_params_.max_ik_solutions);
     ik_params_.jump_threshold = node_->get_parameter("jump_threshold").as_double();
-	RCLCPP_INFO_ONCE(LOGGER, "jump_threshold is set to: $d", ik_params_.jump_threshold);
+	RCLCPP_INFO_ONCE(LOGGER, "jump_threshold is set to: %f", ik_params_.jump_threshold);
 
     // Robot description parameters
     arm_group_name_ = node_->get_parameter("arm_group_name_").as_string();
-	RCLCPP_INFO_ONCE(LOGGER, "arm_group_name_ is set to: $d", arm_group_name_);
+	RCLCPP_INFO_ONCE(LOGGER, "arm_group_name_ is set to: %s", arm_group_name_.c_str());
     hand_group_name_ = node_->get_parameter("hand_group_name_").as_string();
-	RCLCPP_INFO_ONCE(LOGGER, "hand_group_name_ is set to: $d", hand_group_name_);
+	RCLCPP_INFO_ONCE(LOGGER, "hand_group_name_ is set to: %s", hand_group_name_.c_str());
     hand_frame_ = node_->get_parameter("hand_frame_").as_string();
-	RCLCPP_INFO_ONCE(LOGGER, "hand_frame_ is set to: $d", hand_frame_);
+	RCLCPP_INFO_ONCE(LOGGER, "hand_frame_ is set to: %s", hand_frame_.c_str());
 
 	depth_detections_topic_name_ = node_->get_parameter("depth_detections_topic_name_").as_string();
-	RCLCPP_INFO_ONCE(LOGGER, "depth_detections_topic_name_ is set to: $d", depth_detections_topic_name_);
+	RCLCPP_INFO_ONCE(LOGGER, "depth_detections_topic_name_ is set to: %s", depth_detections_topic_name_.c_str());
     mirror_detections_topic_name_ = node_->get_parameter("mirror_detections_topic_name_").as_string();
-	RCLCPP_INFO_ONCE(LOGGER, "mirror_detections_topic_name_ is set to: $d", mirror_detections_topic_name_);
+	RCLCPP_INFO_ONCE(LOGGER, "mirror_detections_topic_name_ is set to: %s", mirror_detections_topic_name_.c_str());
 
     depth_detections_subscription_= node_->create_subscription<yolo_msgs::msg::DetectionArray>(
         depth_detections_topic_name_, 
@@ -113,7 +113,7 @@ SprpiMainTaskNode::SprpiMainTaskNode(const rclcpp::NodeOptions& options)
         std::bind(&SprpiMainTaskNode::mirrorDetectionsCallback, this, std::placeholders::_1)
     );
 
-	node_->create_wall_timer(500ms, std::bind(&SprpiMainTaskNode::loopCallback, this));
+	loop_ = node_->create_wall_timer(20ms, std::bind(&SprpiMainTaskNode::loopCallback, this));
 }
 
 rclcpp::node_interfaces::NodeBaseInterface::SharedPtr SprpiMainTaskNode::getNodeBaseInterface()
@@ -138,24 +138,40 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
     std::vector<moveit_msgs::msg::CollisionObject> collision_objects;
 	std::set<std::string> current_object_ids;
 	collision_objects.reserve(msg->detections.size() + 1);
-	current_object_ids.insert(arm_states_.picked_object);
+	if (arm_states_.picked_object != "") {
+        current_object_ids.insert(arm_states_.picked_object);
+    }
 
     for (const auto &detection : msg->detections) {
 		auto id = detection.id;
 		auto class_name = detection.class_name;
 		auto frame_id =  detection.bbox3d.frame_id;
 		auto dimensions = detection.bbox3d.size;
+        dimensions.z = (dimensions.x+dimensions.y)/2;
 		auto pose = detection.bbox3d.center;
 
 		moveit_msgs::msg::CollisionObject object;
 		object.id = id + "_" + class_name;
 		object.header.frame_id = frame_id;
-		object.primitives.resize(1);
+		object.primitives.resize(2);
+        object.primitive_poses.resize(2);
 		object.primitives[0].type = shape_msgs::msg::SolidPrimitive::BOX;
 		object.primitives[0].dimensions = { dimensions.x, dimensions.y, dimensions.z };
+        object.primitives[1].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
+        object.primitives[1].dimensions = { 0.05, 0.003 };
+        object.primitive_poses[0].position.x= 0.0;
+        object.primitive_poses[0].position.y= ((dimensions.z+0.05)*0.5);
+        object.primitive_poses[0].position.z= 0.0;
+        object.primitive_poses[1].orientation.w= 0.7071;
+        object.primitive_poses[1].orientation.x= 0.7071;
+        object.primitive_poses[1].orientation.y= 0.0;
+        object.primitive_poses[1].orientation.z= 0.0;
 		object.pose = pose;
 
-		current_object_ids.insert(id);
+        if (class_name == "ripe" || class_name == "diseased") {
+            current_object_ids.insert(object.id);
+        }
+
 		collision_objects.push_back(object);
     }
 
@@ -187,7 +203,7 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 	if (arm_states_.is_infront_of_mirror) {
         RCLCPP_INFO(
             LOGGER, "Creating and executing place task on: %s after determining it was %s", 
-            *previous_object_ids_.begin(), 
+            (*previous_object_ids_.begin()).c_str(), 
             is_diseased_ ? "diseased" : "NOT diseased");
 		doTask(createPlaceTask(is_diseased_, arm_states_.picked_object));
 	}
@@ -195,17 +211,23 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 
 void SprpiMainTaskNode::loopCallback()
 {
-	if (!arm_states_.is_picking) {
-        RCLCPP_INFO(LOGGER, "Creating and executing pick task on: %s", *previous_object_ids_.begin());
+    RCLCPP_INFO_ONCE(LOGGER, "Starting loop...");
+	if (!arm_states_.is_picking && !previous_object_ids_.empty()) {
+        RCLCPP_INFO(LOGGER, "Creating and executing pick task on: %s", (*previous_object_ids_.begin()).c_str());
+        arm_states_.is_picking = true;
+        arm_states_.picked_object = *previous_object_ids_.begin();
 		doTask(createPickTask(*previous_object_ids_.begin()));
+        arm_states_.is_picking = false;
+	    arm_states_.is_infront_of_mirror = false;
+        previous_object_ids_.erase(arm_states_.picked_object);
+        arm_states_.picked_object = "";
 	} 
 }
 
 mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
 {
-	picked_object_id_ = object_id;
-	arm_states_.is_picking = true;
-
+    initPlanners();
+	
     mtc::Task task;
     task.stages()->setName("pick_task");
     task.loadRobotModel(node_);
@@ -233,6 +255,13 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     stage_open_hand->setGroup(hand_group_name_);
     stage_open_hand->setGoal("open");
     task.add(std::move(stage_open_hand));
+
+    auto stage_move_to_pick = std::make_unique<mtc::stages::Connect>(
+        "move to pick",
+        mtc::stages::Connect::GroupPlannerVector{ { arm_group_name_, sampling_planner_ } });
+    stage_move_to_pick->setTimeout(5.0);
+    stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
+    task.add(std::move(stage_move_to_pick));
 
     mtc::Stage* attach_object_stage =
     nullptr;  // Forward attach_object_stage to place pose generator
@@ -347,6 +376,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
 
 mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string object_id)
 {
+    initPlanners();
 	std::string basket = (is_diseased) ? "pre_drop_diseased" : "pre_drop_healthy";
 	mtc::Task task;
     task.stages()->setName("place_task");
@@ -424,9 +454,6 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 		}
 	}
 
-	arm_states_.is_picking = false;
-	arm_states_.is_infront_of_mirror = false;
-	picked_object_id_ = "";
 	return task;
 }
 
@@ -469,6 +496,7 @@ int main(int argc, char** argv)
   options.automatically_declare_parameters_from_overrides(true);
 
   auto main_task_node = std::make_shared<SprpiMainTaskNode>(options);
+  main_task_node->initPlanners();
   rclcpp::executors::MultiThreadedExecutor executor;
 
   auto spin_thread = std::make_unique<std::thread>([&executor, &main_task_node]() {
@@ -476,8 +504,6 @@ int main(int argc, char** argv)
     executor.spin();
     executor.remove_node(main_task_node->getNodeBaseInterface());
   });
-
-  main_task_node->initPlanners();
 
   spin_thread->join();
   rclcpp::shutdown();

@@ -7,5 +7,5 @@ main_task_node:
     arm_group_name_: arm
     hand_group_name_: Gripper
     hand_frame_: gripper_base
-    depth_detections_topic_name_: /yolo/depth/detections
-    mirror_detections_topic_name_: /yolo/mirror/detections
+    depth_detections_topic_name_: /object_detection/detections_3d
+    mirror_detections_topic_name_: /image_class/detections
