@@ -162,7 +162,11 @@ def generate_launch_description():
             )
         ),
         launch_arguments={
-            "model": "/home/ws/src/yolo_ros/yolo_bringup/launch/strawberry_object_tracking.pt",
+            "model": os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "strawberry_object_tracking.pt"
+            ),
             "input_image_topic": "/depth_camera/image_rect",
             "target_frame": "depth_camera",
             "image_reliability": "2",
