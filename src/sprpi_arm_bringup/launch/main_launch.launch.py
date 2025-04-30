@@ -5,6 +5,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.actions import TimerAction
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -103,6 +104,15 @@ def generate_launch_description():
             ("image", "/mirror_camera/image_raw_throttle"),
             ("camera_info", "/mirror_camera/camera_info"),
             ("image_rect", "/mirror_camera/image_rect")
+        ],
+        arguments=['--ros-args', '--log-level', 'error']
+    )
+    mirror_camera_delay = TimerAction(
+        period=6.0,
+        actions=[
+            mirror_camera_launch,
+            mirror_camera_throttle,
+            mirror_camera_image_rect,
         ]
     )
     
@@ -184,9 +194,7 @@ def generate_launch_description():
         depth_camera_launch,
         depth_camera_throttle,
         depth_camera_image_rect,
-        mirror_camera_launch,
-        mirror_camera_throttle,
-        mirror_camera_image_rect,
+        mirror_camera_delay,
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
