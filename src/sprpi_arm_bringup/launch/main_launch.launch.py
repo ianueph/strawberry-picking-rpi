@@ -196,6 +196,17 @@ def generate_launch_description():
         }.items()
     )
     
+    ## MTC node for task planning
+    MTC_node_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("sprpi_arm_mtc"),
+                "launch",
+                "sprpi_main_task_node.launch.py"
+            ),
+        )
+    )
+    
     return LaunchDescription([
         declare_image_frequency_arg,
         depth_camera_launch,
@@ -205,5 +216,6 @@ def generate_launch_description():
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
+        MTC_node_launch,
         #healthy_diseased_classification_launch,
     ])
