@@ -17,7 +17,7 @@
 #include <tf2_eigen/tf2_eigen.h>
 #endif
 
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("main_task_node");
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("main_task_node_logger");
 using namespace std::chrono_literals;
 namespace mtc = moveit::task_constructor;
 
