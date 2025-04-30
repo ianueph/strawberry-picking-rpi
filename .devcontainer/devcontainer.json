@@ -27,7 +27,7 @@
         "GHP":"${localEnv:GHP}",
         "DISPLAY": "localhost:10.0",
         "XAUTHORITY":"${localEnv:HOME}/.Xauthority",
-        "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST",
+        "ROS_AUTOMATIC_DISCOVERY_RANGE": "SUBNET",
         "ROS_DOMAIN_ID": "42",
         "UDEV":"1"
     },
