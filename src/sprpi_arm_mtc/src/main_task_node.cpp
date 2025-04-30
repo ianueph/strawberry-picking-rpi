@@ -500,13 +500,11 @@ int main(int argc, char** argv)
 
   auto main_task_node = std::make_shared<SprpiMainTaskNode>(options);
   main_task_node->initPlanners();
-  rclcpp::executors::MultiThreadedExecutor executor;
+    rclcpp::executors::SingleThreadedExecutor executor;
 
-  auto spin_thread = std::make_unique<std::thread>([&executor, &main_task_node]() {
     executor.add_node(main_task_node->getNodeBaseInterface());
     executor.spin();
     executor.remove_node(main_task_node->getNodeBaseInterface());
-  });
 
   spin_thread->join();
   rclcpp::shutdown();
