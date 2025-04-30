@@ -186,8 +186,10 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 	std::set_symmetric_difference(	current_object_ids.begin(), 	current_object_ids.end(),
 									previous_object_ids_.begin(), 	previous_object_ids_.end(),
 									std::back_inserter(missing_ids));
+    RCLCPP_INFO(LOGGER, "Removing %ld objects from scene", missing_ids.size());
 	psi.removeCollisionObjects(missing_ids);
 
+    RCLCPP_INFO(LOGGER, "Detected %ld objects, applying to scene...", collision_objects.size());
     if (!psi.applyCollisionObjects(collision_objects)) {
 		RCLCPP_ERROR(LOGGER, "Failed to apply collision objects");
 	}
