@@ -131,16 +131,20 @@ void SprpiMainTaskNode::initPlanners()
     cartesian_planner_->setMaxVelocityScalingFactor(1.0);
     cartesian_planner_->setMaxAccelerationScalingFactor(1.0);
     cartesian_planner_->setStepSize(.01);
+    cartesian_planner_->setMinFraction(0.1);
     cartesian_planner_->setJumpThreshold(ik_params_.jump_threshold);
 }
 
 void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg)
 {   
+    moveit::planning_interface::PlanningSceneInterface psi;
     std::vector<moveit_msgs::msg::CollisionObject> collision_objects;
 	std::set<std::string> current_object_ids;
 	collision_objects.reserve(msg->detections.size() + 1);
-	if (arm_states_.picked_object != "") {
-        current_object_ids.insert(arm_states_.picked_object);
+
+    std::set<std::string> attached_object_ids;
+    for (const auto &attached : psi.getAttachedObjects()) {
+        attached_object_ids.insert(attached.first);
     }
 
     for (const auto &detection : msg->detections) {
@@ -153,6 +157,9 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 
 		moveit_msgs::msg::CollisionObject object;
 		object.id = id + "_" + class_name;
+        if (attached_object_ids.count(object.id)) {
+            continue;
+        }
 		object.header.frame_id = frame_id;
 		object.primitives.resize(2);
         object.primitive_poses.resize(2);
@@ -176,15 +183,22 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 
         if (class_name == "ripe" || class_name == "diseased") {
             current_object_ids.insert(object.id);
-        }
-
 		collision_objects.push_back(object);
     }
+    }
 
-	moveit::planning_interface::PlanningSceneInterface psi;
+    std::set<std::string> previous_object_ids;
+    for (const auto &previous_objects : psi.getObjects()) {
+        previous_object_ids.insert(previous_objects.first);
+    }
+    for (const auto &attached_id : attached_object_ids) {
+        previous_object_ids.erase(attached_id);
+        current_object_ids.erase(attached_id);
+    }
+	
 	std::vector<std::string> missing_ids;
 	std::set_symmetric_difference(	current_object_ids.begin(), 	current_object_ids.end(),
-									previous_object_ids_.begin(), 	previous_object_ids_.end(),
+									previous_object_ids.begin(), 	previous_object_ids.end(),
 									std::back_inserter(missing_ids));
     RCLCPP_INFO(LOGGER, "Removing %ld objects from scene", missing_ids.size());
 	psi.removeCollisionObjects(missing_ids);
