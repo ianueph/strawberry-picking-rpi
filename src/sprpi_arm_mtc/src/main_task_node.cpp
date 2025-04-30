@@ -33,7 +33,7 @@ public:
 	void loopCallback();
     mtc::Task createPickTask(const std::string object_id);
     mtc::Task createPlaceTask(bool is_diseased, const std::string object_id);
-	void doTask(const mtc::Task task);
+	void doTask();
 
 private:
 
@@ -48,6 +48,7 @@ private:
 		bool is_picking = false;
 		bool is_infront_of_mirror = false;
 		std::string picked_object = "";
+        mtc::Task current_task;
 	};
 
 	
@@ -205,7 +206,12 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
             LOGGER, "Creating and executing place task on: %s after determining it was %s", 
             (*previous_object_ids_.begin()).c_str(), 
             is_diseased_ ? "diseased" : "NOT diseased");
-		doTask(createPlaceTask(is_diseased_, arm_states_.picked_object));
+        arm_states_.current_task = createPlaceTask(is_diseased_, arm_states_.picked_object);
+		doTask();
+        arm_states_.is_picking = false;
+        arm_states_.is_infront_of_mirror = false;
+        previous_object_ids_.erase(arm_states_.picked_object);
+        arm_states_.picked_object = "";
 	}
 }
 
@@ -216,11 +222,9 @@ void SprpiMainTaskNode::loopCallback()
         RCLCPP_INFO(LOGGER, "Creating and executing pick task on: %s", (*previous_object_ids_.begin()).c_str());
         arm_states_.is_picking = true;
         arm_states_.picked_object = *previous_object_ids_.begin();
-		doTask(createPickTask(*previous_object_ids_.begin()));
-        arm_states_.is_picking = false;
-	    arm_states_.is_infront_of_mirror = false;
-        previous_object_ids_.erase(arm_states_.picked_object);
-        arm_states_.picked_object = "";
+        arm_states_.current_task = createPickTask(*previous_object_ids_.begin());
+		doTask();
+        sleep(10);
 	} 
 }
 
@@ -457,11 +461,11 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 	return task;
 }
 
-void SprpiMainTaskNode::doTask(mtc::Task task)
+void SprpiMainTaskNode::doTask()
 {
 	try
 	{
-		task.init();
+		arm_states_.current_task.init();
 	}
 	catch (mtc::InitStageException& e)
 	{
@@ -469,14 +473,14 @@ void SprpiMainTaskNode::doTask(mtc::Task task)
 		return;
 	}
 
-	if (!task.plan(5))
+	if (!arm_states_.current_task.plan(5))
 	{
 		RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
 		return;
 	}
-	task.introspection().publishSolution(*task.solutions().front());
+	arm_states_.current_task.introspection().publishSolution(*arm_states_.current_task.solutions().front());
 
-	auto result = task.execute(*task.solutions().front());
+	auto result = arm_states_.current_task.execute(*arm_states_.current_task.solutions().front());
 	if (result.val != moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
 	{
 		RCLCPP_ERROR_STREAM(LOGGER, "Task execution failed with error code: " << result.val);
@@ -484,7 +488,6 @@ void SprpiMainTaskNode::doTask(mtc::Task task)
 		RCLCPP_ERROR_STREAM(LOGGER, ", error source: " << result.source);
 		return;
 	}
-	
 	return;
 }
 
