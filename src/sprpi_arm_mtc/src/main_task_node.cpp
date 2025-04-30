@@ -183,8 +183,8 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 
         if (class_name == "ripe" || class_name == "diseased") {
             current_object_ids.insert(object.id);
-		collision_objects.push_back(object);
-    }
+            collision_objects.push_back(object);
+        }
     }
 
     std::set<std::string> previous_object_ids;
@@ -219,7 +219,7 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 
 		if (class_name == "diseased") {
 			is_diseased_ = true;
-		} 
+		}
     }
 
 	if (arm_states_.is_infront_of_mirror) {
@@ -503,7 +503,7 @@ void SprpiMainTaskNode::doTask()
 		return;
 	}
 	arm_states_.current_task.introspection().publishSolution(*arm_states_.current_task.solutions().front());
-
+    
 	auto result = arm_states_.current_task.execute(*arm_states_.current_task.solutions().front());
 	if (result.val != moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
 	{
@@ -517,13 +517,13 @@ void SprpiMainTaskNode::doTask()
 
 int main(int argc, char** argv)
 {
-  rclcpp::init(argc, argv);
+    rclcpp::init(argc, argv);
 
-  rclcpp::NodeOptions options;
-  options.automatically_declare_parameters_from_overrides(true);
+    rclcpp::NodeOptions options;
+    options.automatically_declare_parameters_from_overrides(true);
 
-  auto main_task_node = std::make_shared<SprpiMainTaskNode>(options);
-  main_task_node->initPlanners();
+    auto main_task_node = std::make_shared<SprpiMainTaskNode>(options);
+    main_task_node->initPlanners();
     rclcpp::executors::SingleThreadedExecutor executor;
 
     executor.add_node(main_task_node->getNodeBaseInterface());
@@ -531,7 +531,7 @@ int main(int argc, char** argv)
     executor.remove_node(main_task_node->getNodeBaseInterface());
 
   spin_thread->join();
-  rclcpp::shutdown();
-  return 0;
+    rclcpp::shutdown();
+    return 0;
 }
 
