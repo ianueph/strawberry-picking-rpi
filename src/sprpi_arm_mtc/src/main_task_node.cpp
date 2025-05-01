@@ -213,7 +213,7 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 
 void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg)
 {   
-	is_diseased_ = true;
+	is_diseased_ = false;
 	for (const auto &detection : msg->detections) {
 		auto class_name = detection.class_name;
 
