@@ -537,7 +537,6 @@ int main(int argc, char** argv)
     executor.spin();
     executor.remove_node(main_task_node->getNodeBaseInterface());
 
-  spin_thread->join();
     rclcpp::shutdown();
     return 0;
 }
