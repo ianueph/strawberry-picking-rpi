@@ -192,7 +192,15 @@ def generate_launch_description():
             )
         ),
         launch_arguments={
-
+            "model": os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "strawberry_image_class.pt"
+            ),
+            "input_image_topic": "/depth_camera/image_rect",
+            "image_reliability": "2",
+            "device": "cpu",
+            "namespace": "image_class",
         }.items()
     )
     
@@ -216,6 +224,7 @@ def generate_launch_description():
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
+        healthy_diseased_classification_launch
         MTC_node_launch,
         #healthy_diseased_classification_launch,
     ])
