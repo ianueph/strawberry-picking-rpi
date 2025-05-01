@@ -424,6 +424,13 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
     current_state_ptr = stage_state_current.get();
     task.add(std::move(stage_state_current));
 
+    auto stage_move_to_pick = std::make_unique<mtc::stages::Connect>(
+        "move to place",
+        mtc::stages::Connect::GroupPlannerVector{ { arm_group_name_, sampling_planner_ } });
+    stage_move_to_pick->setTimeout(5.0);
+    stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
+    task.add(std::move(stage_move_to_pick));
+
     {
 		auto place = std::make_unique<mtc::SerialContainer>("place into basket");
 		task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
