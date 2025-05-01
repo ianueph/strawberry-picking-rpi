@@ -345,7 +345,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     
         {
           auto stage =
-              std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision (hand," + object_id")");
+              std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision (hand," + object_id+")");
           stage->allowCollisions(object_id,
                                 task.getRobotModel()
                                     ->getJointModelGroup(hand_group_name_)
