@@ -254,7 +254,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     initPlanners();
 	
     mtc::Task task;
-    task.stages()->setName("pick_task");
+    task.stages()->setName("pick " + object_id);
     task.loadRobotModel(node_);
   
     // Set task properties
@@ -292,13 +292,13 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     nullptr;  // Forward attach_object_stage to place pose generator
 
     {
-        auto grasp = std::make_unique<mtc::SerialContainer>("pick object");
+        auto grasp = std::make_unique<mtc::SerialContainer>("pick " + object_id);
         task.properties().exposeTo(grasp->properties(), { "eef", "group", "ik_frame" });
         grasp->properties().configureInitFrom(mtc::Stage::PARENT,
                                               { "eef", "group", "ik_frame" });
         {
           auto stage =
-              std::make_unique<mtc::stages::MoveRelative>("approach object", cartesian_planner_);
+              std::make_unique<mtc::stages::MoveRelative>("approach " + object_id, cartesian_planner_);
           stage->properties().set("marker_ns", "approach_object");
           stage->properties().set("link", hand_frame_);
           stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
@@ -345,7 +345,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     
         {
           auto stage =
-              std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision (hand,object)");
+              std::make_unique<mtc::stages::ModifyPlanningScene>("allow collision (hand," + object_id")");
           stage->allowCollisions(object_id,
                                 task.getRobotModel()
                                     ->getJointModelGroup(hand_group_name_)
@@ -362,7 +362,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
         }
     
         {
-          auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("attach object");
+          auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("attach " + object_id);
           stage->attachObject(object_id, hand_frame_);
           attach_object_stage = stage.get();
           grasp->insert(std::move(stage));
@@ -370,7 +370,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     
         {
           auto stage =
-              std::make_unique<mtc::stages::MoveRelative>("retreat from object", cartesian_planner_);
+              std::make_unique<mtc::stages::MoveRelative>("retreat from " + object_id, cartesian_planner_);
           stage->properties().set("marker_ns", "retreat_from_object");
           stage->properties().set("link", hand_frame_);
           stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
@@ -386,7 +386,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     
         {
           auto stage =
-              std::make_unique<mtc::stages::MoveTo>("bring object infront of mirror", sampling_planner_);
+              std::make_unique<mtc::stages::MoveTo>("bring "+object_id+" infront of mirror", sampling_planner_);
           stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
           stage->setGroup(arm_group_name_);
           stage->setGoal("infront_of_mirror");
@@ -407,7 +407,7 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
     initPlanners();
 	std::string basket = (is_diseased) ? "pre_drop_diseased" : "pre_drop_healthy";
 	mtc::Task task;
-    task.stages()->setName("place_task");
+    task.stages()->setName("place " + object_id + " to " + basket);
     task.loadRobotModel(node_);
   
     // Set task properties
@@ -432,7 +432,7 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
     task.add(std::move(stage_move_to_pick));
 
     {
-		auto place = std::make_unique<mtc::SerialContainer>("place into basket");
+		auto place = std::make_unique<mtc::SerialContainer>("place into " + basket);
 		task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
         place->properties().configureInitFrom(mtc::Stage::PARENT,
                                               { "eef", "group", "ik_frame" });
@@ -451,7 +451,7 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 		}
 
 		{
-			auto stage = std::make_unique<mtc::stages::MoveTo>("move to basket", interpolation_planner_);
+			auto stage = std::make_unique<mtc::stages::MoveTo>("move to " + basket, interpolation_planner_);
 			stage->setGroup(arm_group_name_);
 			stage->setGoal(basket);
 			place->insert(std::move(stage));
@@ -466,7 +466,7 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 
 		{
 			auto stage =
-				std::make_unique<mtc::stages::ModifyPlanningScene>("forbid collision (hand,object)");
+				std::make_unique<mtc::stages::ModifyPlanningScene>("forbid collision (hand,"+ object_id +")");
 			stage->allowCollisions(object_id,
 								  task.getRobotModel()
 									  ->getJointModelGroup(hand_group_name_)
@@ -476,7 +476,7 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 		}
 
 		{
-			auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("detach object");
+			auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("detach " + object_id);
 			stage->detachObject(object_id, hand_frame_);
 			place->insert(std::move(stage));
 		}
