@@ -64,6 +64,33 @@ def generate_launch_description():
         ],
         arguments=['--ros-args', '--log-level', 'error']
     )
+    strawberry_object_tracking_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "yolov8.launch.py"
+            )
+        ),
+        launch_arguments={
+            "model": os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "strawberry_object_tracking.pt"
+            ),
+            "input_image_topic": "/depth_camera/image_rect",
+            "target_frame": "depth_camera",
+            "image_reliability": "2",
+            "depth_image_reliability": "2",
+            "depth_info_reliability": "2",
+            "depth_image_units_divisor": "1",
+            "input_depth_info_topic": "/depth_camera/depth/camera_info",
+            "input_depth_topic": "/depth_camera/depth/image_raw",
+            "use_3d": "True",
+            "device": "cpu",
+            "namespace": "object_detection",
+        }.items()
+    )
     
     ## imx708 will be intended to be used for image classification
     ## image preprocessing pipeline for the imx708
@@ -110,12 +137,33 @@ def generate_launch_description():
         ],
         arguments=['--ros-args', '--log-level', 'error']
     )
+    healthy_diseased_classification_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "yolov8.launch.py"
+            )
+        ),
+        launch_arguments={
+            "model": os.path.join(
+                get_package_share_directory("yolo_bringup"),
+                "launch",
+                "strawberry_image_class.pt"
+            ),
+            "input_image_topic": "/mirror_camera/image_rect",
+            "image_reliability": "2",
+            "device": "cpu",
+            "namespace": "image_class",
+        }.items()
+    )
     mirror_camera_delay = TimerAction(
         period=6.0,
         actions=[
             mirror_camera_launch,
             mirror_camera_throttle,
-            mirror_camera_image_rect,
+            mirror_camera_image_rect, 
+            healthy_diseased_classification_launch,
         ]
     )
     
@@ -153,56 +201,7 @@ def generate_launch_description():
                 "display.launch.py"
             ),
         )
-    )
-    
-    ## yolo nodes for 
-    strawberry_object_tracking_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory("yolo_bringup"),
-                "launch",
-                "yolov8.launch.py"
-            )
-        ),
-        launch_arguments={
-            "model": os.path.join(
-                get_package_share_directory("yolo_bringup"),
-                "launch",
-                "strawberry_object_tracking.pt"
-            ),
-            "input_image_topic": "/depth_camera/image_rect",
-            "target_frame": "depth_camera",
-            "image_reliability": "2",
-            "depth_image_reliability": "2",
-            "depth_info_reliability": "2",
-            "depth_image_units_divisor": "1",
-            "input_depth_info_topic": "/depth_camera/depth/camera_info",
-            "input_depth_topic": "/depth_camera/depth/image_raw",
-            "use_3d": "True",
-            "device": "cpu",
-            "namespace": "object_detection",
-        }.items()
-    )
-    healthy_diseased_classification_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory("yolo_bringup"),
-                "launch",
-                "yolov8.launch.py"
-            )
-        ),
-        launch_arguments={
-            "model": os.path.join(
-                get_package_share_directory("yolo_bringup"),
-                "launch",
-                "strawberry_image_class.pt"
-            ),
-            "input_image_topic": "/depth_camera/image_rect",
-            "image_reliability": "2",
-            "device": "cpu",
-            "namespace": "image_class",
-        }.items()
-    )
+    )    
     
     ## MTC node for task planning
     MTC_node_launch = IncludeLaunchDescription(
@@ -224,6 +223,5 @@ def generate_launch_description():
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
-        healthy_diseased_classification_launch,
         MTC_node_launch,
     ])
