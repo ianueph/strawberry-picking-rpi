@@ -225,7 +225,7 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 	if (arm_states_.is_infront_of_mirror) {
         RCLCPP_INFO(
             LOGGER, "Creating and executing place task on: %s after determining it was %s", 
-            (*previous_object_ids_.begin()).c_str(), 
+            arm_states_.picked_object, 
             is_diseased_ ? "diseased" : "NOT diseased");
         arm_states_.current_task = createPlaceTask(is_diseased_, arm_states_.picked_object);
 		doTask();
