@@ -224,7 +224,6 @@ def generate_launch_description():
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
-        healthy_diseased_classification_launch
+        healthy_diseased_classification_launch,
         MTC_node_launch,
-        #healthy_diseased_classification_launch,
     ])
