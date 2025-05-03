@@ -13,10 +13,16 @@ def generate_launch_description():
     
     ## declare params
     image_frequency = LaunchConfiguration("image_frequency")
+    debug = LaunchConfiguration("debug")
     declare_image_frequency_arg = DeclareLaunchArgument(
         "image_frequency",
         default_value="0.2",
         description="The max frequency (hz) that the system will process images"
+    )
+    declare_debug_arg = DeclareLaunchArgument(
+        "debug",
+        default_value="True",
+        description="Will the launch file bring up the yolo debug nodes (True, False)"
     )
     
     ## imx708_wide will be intended to be used for depth estimation and object detection
@@ -87,6 +93,7 @@ def generate_launch_description():
             "input_depth_info_topic": "/depth_camera/depth/camera_info",
             "input_depth_topic": "/depth_camera/depth/image_raw",
             "use_3d": "True",
+            "use_debug": debug,
             "device": "cpu",
             "namespace": "object_detection",
         }.items()
@@ -154,6 +161,9 @@ def generate_launch_description():
             "input_image_topic": "/mirror_camera/image_rect",
             "image_reliability": "2",
             "device": "cpu",
+            "use_debug": debug,
+            "use_tracking": "False",
+            "use_3d": "False",
             "namespace": "image_class",
         }.items()
     )
