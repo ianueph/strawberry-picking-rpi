@@ -166,10 +166,10 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 		object.primitives[0].type = shape_msgs::msg::SolidPrimitive::BOX;
 		object.primitives[0].dimensions = { dimensions.x, dimensions.y, dimensions.z };
         object.primitives[1].type = shape_msgs::msg::SolidPrimitive::CYLINDER;
-        object.primitives[1].dimensions = { 0.04, 0.003 };
+        object.primitives[1].dimensions = { 0.06, 0.003 };
         object.primitive_poses[1].position.x= 0.0;
         object.primitive_poses[1].position.y= 0.0;
-        object.primitive_poses[1].position.z= ((dimensions.z+0.04)*0.5);
+        object.primitive_poses[1].position.z= ((dimensions.z+0.06)*0.5);
         object.primitive_poses[1].orientation.w= 0.0;
         object.primitive_poses[1].orientation.x= 0.0;
         object.primitive_poses[1].orientation.y= 0.0;
@@ -178,6 +178,7 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
         pose.orientation.x= 0.7071;
         pose.orientation.y= 0.0;
         pose.orientation.z= 0.0;
+        pose.position.y= 0.05;
 
 		object.pose = pose;
 
@@ -339,7 +340,7 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
           grasp_frame_transform.linear() = q.matrix();
           grasp_frame_transform.translation().z() = 0.1;
           std::double_t object_height = psi.getObjects({object_id}).at(object_id).primitives[0].dimensions[2];
-          grasp_frame_transform.translation().x() = -((object_height+0.04)*0.5);
+          grasp_frame_transform.translation().x() = -((object_height+0.06)*0.5)-0.05;
     
             // Compute IK
           auto wrapper =
