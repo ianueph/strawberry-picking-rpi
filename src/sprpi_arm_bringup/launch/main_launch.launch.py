@@ -127,7 +127,7 @@ def generate_launch_description():
         arguments=[
             "messages",
             "/mirror_camera/image_raw",
-            image_frequency,
+            "1.0",
             "/mirror_camera/image_raw_throttle",
             '--ros-args', '--log-level', 'error'
         ]
@@ -156,9 +156,9 @@ def generate_launch_description():
             "model": os.path.join(
                 get_package_share_directory("yolo_bringup"),
                 "launch",
-                "strawberry_image_class.pt"
+                "strawberry_object_tracking.pt"
             ),
-            "input_image_topic": "/mirror_camera/image_rect",
+            "input_image_topic": "/mirror_camera/image_raw_throttle",
             "image_reliability": "2",
             "device": "cpu",
             "use_debug": debug,
@@ -172,7 +172,7 @@ def generate_launch_description():
         actions=[
             mirror_camera_launch,
             mirror_camera_throttle,
-            mirror_camera_image_rect, 
+            #mirror_camera_image_rect, 
             healthy_diseased_classification_launch,
         ]
     )
