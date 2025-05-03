@@ -842,7 +842,7 @@
   </joint>
   <link name="mirror_camera">
     <visual>
-      <origin rpy="0.0 0.0 -3.141592653589793" xyz="0.0125 0.0145 0.0"/>
+      <origin rpy="0.0 0.0 3.141592653589793" xyz="0.0125 0.0145 0.0"/>
       <geometry>
         <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -856,7 +856,7 @@
   </joint>
   <link name="depth_camera">
     <visual>
-      <origin rpy="0.0 0.0 -3.141592653589793" xyz="0.0125 0.0145 0.0"/>
+      <origin rpy="0.0 0.0 3.141592653589793" xyz="0.0125 0.0145 0.0"/>
       <geometry>
         <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
       </geometry>

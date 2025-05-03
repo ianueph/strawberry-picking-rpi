@@ -282,7 +282,7 @@
 
         <link name="mirror_camera">
             <visual>
-                <origin xyz="-0.0125 -0.0145 0.0" rpy="0.0 0.0 0.0"/>
+                <origin xyz="0.0125 0.0145 0.0" rpy="0.0 0.0 ${pi}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -296,7 +296,7 @@
             ${mirror_camera_mount_z_size - camera_z_offset}"
             rpy="
             ${pi/2}
-            ${pi}
+            0.0
             0.0"/>
             <parent link="mirror_camera_mount"/>
             <child link="mirror_camera"/>
@@ -304,7 +304,7 @@
 
         <link name="depth_camera">
             <visual>
-                <origin xyz="-0.0125 -0.0145 0.0" rpy="0.0 0.0 0.0"/>
+                <origin xyz="0.0125 0.0145 0.0" rpy="0.0 0.0 ${pi}"/>
                 <geometry>
                     <mesh filename="package://strawberry_picking_rpi_description/meshes/Pi Camera Module v3.STL" scale="0.001 0.001 0.001"/>
                 </geometry>
@@ -318,7 +318,7 @@
             ${depth_camera_mount_z_size - camera_z_offset}"
             rpy="
             ${pi/2}
-            ${pi}
+            0.0
             0.0"/>
             <parent link="depth_camera_mount"/>
             <child link="depth_camera"/>
