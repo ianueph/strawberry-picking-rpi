@@ -424,70 +424,47 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
     current_state_ptr = stage_state_current.get();
     task.add(std::move(stage_state_current));
 
-    auto stage_move_to_pick = std::make_unique<mtc::stages::Connect>(
-        "move to place",
-        mtc::stages::Connect::GroupPlannerVector{ { arm_group_name_, sampling_planner_ } });
-    stage_move_to_pick->setTimeout(5.0);
-    stage_move_to_pick->properties().configureInitFrom(mtc::Stage::PARENT);
-    task.add(std::move(stage_move_to_pick));
+    {
+        auto stage = std::make_unique<mtc::stages::MoveTo>("raise from mirror", sampling_planner_);
+        stage->setGroup(arm_group_name_);
+        stage->setGoal("raise_from_mirror");
+        task.add(std::move(stage));
+    }
 
     {
-		auto place = std::make_unique<mtc::SerialContainer>("place into " + basket);
-		task.properties().exposeTo(place->properties(), { "eef", "group", "ik_frame" });
-        place->properties().configureInitFrom(mtc::Stage::PARENT,
-                                              { "eef", "group", "ik_frame" });
-		{
-			auto stage = std::make_unique<mtc::stages::MoveTo>("raise from mirror", interpolation_planner_);
-			stage->setGroup(arm_group_name_);
-			stage->setGoal("raise_from_mirror");
-			place->insert(std::move(stage));
-		}
+        auto stage = std::make_unique<mtc::stages::MoveTo>("rotate to baskets", sampling_planner_);
+        stage->setGroup(arm_group_name_);
+        stage->setGoal("rotate_to_basket");
+        task.add(std::move(stage));
+    }
 
-		{
-			auto stage = std::make_unique<mtc::stages::MoveTo>("rotate to baskets", interpolation_planner_);
-			stage->setGroup(arm_group_name_);
-			stage->setGoal("rotate_to_basket");
-			place->insert(std::move(stage));
-		}
+    {
+        auto stage = std::make_unique<mtc::stages::MoveTo>("move to " + basket, sampling_planner_);
+        stage->setGroup(arm_group_name_);
+        stage->setGoal(basket);
+        task.add(std::move(stage));
+    }
 
-		{
-			auto stage = std::make_unique<mtc::stages::MoveTo>("move to " + basket, interpolation_planner_);
-			stage->setGroup(arm_group_name_);
-			stage->setGoal(basket);
-			place->insert(std::move(stage));
-		}
+    {
+        auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner_);
+        stage->setGroup(hand_group_name_);
+        stage->setGoal("open");
+        task.add(std::move(stage));
+    }
 
-		{
-			auto stage = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner_);
-			stage->setGroup(hand_group_name_);
-			stage->setGoal("open");
-			place->insert(std::move(stage));
-		}
+    {
+        auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("detach " + object_id);
+        stage->detachObject(object_id, hand_frame_);
+        task.add(std::move(stage));
+    }
 
-		{
-			auto stage =
-				std::make_unique<mtc::stages::ModifyPlanningScene>("forbid collision (hand,"+ object_id +")");
-			stage->allowCollisions(object_id,
-								  task.getRobotModel()
-									  ->getJointModelGroup(hand_group_name_)
-									  ->getLinkModelNamesWithCollisionGeometry(),
-								  false);
-			place->insert(std::move(stage));
-		}
-
-		{
-			auto stage = std::make_unique<mtc::stages::ModifyPlanningScene>("detach " + object_id);
-			stage->detachObject(object_id, hand_frame_);
-			place->insert(std::move(stage));
-		}
-
-		{
-			auto stage = std::make_unique<mtc::stages::MoveTo>("move to default position", interpolation_planner_);
-			stage->setGroup(arm_group_name_);
-			stage->setGoal("Default");
-			place->insert(std::move(stage));
-		}
-	}
+    {
+        auto stage = std::make_unique<mtc::stages::MoveTo>("move to default position", sampling_planner_);
+        stage->properties().configureInitFrom(mtc::Stage::PARENT, { "group" });
+        stage->setGroup(arm_group_name_);
+        stage->setGoal("Default");
+        task.add(std::move(stage));
+    }
 
 	return task;
 }
