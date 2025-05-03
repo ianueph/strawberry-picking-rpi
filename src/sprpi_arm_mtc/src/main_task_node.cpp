@@ -191,6 +191,9 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
     for (const auto &previous_objects : psi.getObjects()) {
         previous_object_ids.insert(previous_objects.first);
     }
+
+    previous_object_ids.erase(arm_states_.picked_object);
+    current_object_ids.erase(arm_states_.picked_object);
     for (const auto &attached_id : attached_object_ids) {
         previous_object_ids.erase(attached_id);
         current_object_ids.erase(attached_id);
@@ -217,34 +220,40 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 	for (const auto &detection : msg->detections) {
 		auto class_name = detection.class_name;
 
-		if (class_name == "diseased") {
+		if (class_name != "ripe") {
 			is_diseased_ = true;
 		}
     }
 
-	if (arm_states_.is_infront_of_mirror) {
+	if (arm_states_.is_infront_of_mirror && !msg->detections.empty()) {
         RCLCPP_INFO(
             LOGGER, "Creating and executing place task on: %s after determining it was %s", 
             arm_states_.picked_object, 
             is_diseased_ ? "diseased" : "NOT diseased");
         arm_states_.current_task = createPlaceTask(is_diseased_, arm_states_.picked_object);
-		doTask();
-        arm_states_.is_picking = false;
-        arm_states_.is_infront_of_mirror = false;
-        previous_object_ids_.erase(arm_states_.picked_object);
-        arm_states_.picked_object = "";
+		if (doTask()) {
+            arm_states_.is_picking = false;
+            arm_states_.is_infront_of_mirror = false;
+            arm_states_.picked_object = "";
+            previous_object_ids_.erase(arm_states_.picked_object);
+        }
 	}
 }
 
 void SprpiMainTaskNode::loopCallback()
 {
     RCLCPP_INFO_ONCE(LOGGER, "Starting loop...");
-	if (!arm_states_.is_picking && !previous_object_ids_.empty()) {
+	if (!arm_states_.is_picking && 
+        !previous_object_ids_.empty() && 
+        !(*previous_object_ids_.begin() == "")) 
+    {
         RCLCPP_INFO(LOGGER, "Creating and executing pick task on: %s", (*previous_object_ids_.begin()).c_str());
-        arm_states_.is_picking = true;
-        arm_states_.picked_object = *previous_object_ids_.begin();
         arm_states_.current_task = createPickTask(*previous_object_ids_.begin());
-		doTask();
+        if (doTask()) {
+            arm_states_.is_infront_of_mirror = true;
+            arm_states_.is_picking = true;
+            arm_states_.picked_object = *previous_object_ids_.begin();
+        }
         sleep(10);
 	} 
 }
@@ -398,7 +407,6 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
         task.add(std::move(grasp));
       }
     
-	arm_states_.is_infront_of_mirror = true;
     return task;
 }
 
