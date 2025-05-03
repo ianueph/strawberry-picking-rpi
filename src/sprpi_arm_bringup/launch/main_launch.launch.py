@@ -223,9 +223,28 @@ def generate_launch_description():
             ),
         )
     )
+    MTC_node_delay = TimerAction(
+        period=20.0,
+        actions=[
+            MTC_node_launch
+        ]
+    )
+    
+    ## moveit config launches
+    launch_package_path = os.path.join(get_package_share_directory("strawberry_picking_rpi_moveit_config"))
+    moveit_config_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(launch_package_path, "launch", "demo.launch.py")
+        ),
+        launch_arguments={
+            "use_rviz": "False",
+            "db": "False"
+        }.items()
+    )
     
     return LaunchDescription([
         declare_image_frequency_arg,
+        declare_debug_arg,
         depth_camera_launch,
         depth_camera_throttle,
         depth_camera_image_rect,
@@ -233,5 +252,6 @@ def generate_launch_description():
         depth_anything_launch,
         depth_to_pointcloud,
         strawberry_object_tracking_launch,
-        MTC_node_launch,
+        MTC_node_delay,
+        moveit_config_launch
     ])
