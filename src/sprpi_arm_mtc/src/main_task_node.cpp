@@ -33,7 +33,7 @@ public:
 	void loopCallback();
     mtc::Task createPickTask(const std::string object_id);
     mtc::Task createPlaceTask(bool is_diseased, const std::string object_id);
-	void doTask();
+	bool doTask();
 
 private:
 
@@ -469,7 +469,7 @@ mtc::Task SprpiMainTaskNode::createPlaceTask(bool is_diseased, const std::string
 	return task;
 }
 
-void SprpiMainTaskNode::doTask()
+bool SprpiMainTaskNode::doTask()
 {
 	try
 	{
@@ -478,13 +478,13 @@ void SprpiMainTaskNode::doTask()
 	catch (mtc::InitStageException& e)
 	{
 		RCLCPP_ERROR_STREAM(LOGGER, e);
-		return;
+		return false;
 	}
 
 	if (!arm_states_.current_task.plan(5))
 	{
 		RCLCPP_ERROR_STREAM(LOGGER, "Task planning failed");
-		return;
+		return false;
 	}
 	arm_states_.current_task.introspection().publishSolution(*arm_states_.current_task.solutions().front());
     
@@ -494,9 +494,9 @@ void SprpiMainTaskNode::doTask()
 		RCLCPP_ERROR_STREAM(LOGGER, "Task execution failed with error code: " << result.val);
 		RCLCPP_ERROR_STREAM(LOGGER, ", error message: " << result.message);
 		RCLCPP_ERROR_STREAM(LOGGER, ", error source: " << result.source);
-		return;
+		return false;
 	}
-	return;
+	return true; 
 }
 
 int main(int argc, char** argv)
