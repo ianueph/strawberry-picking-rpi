@@ -34,8 +34,11 @@ sudo apt install ros-jazzy-xacro -y
 # install udev
 sudo apt install udev -y
 # install cyclonedds
-sudo apt install ros-jazzy-rmw-cyclonedds-cpp   
+sudo apt install ros-jazzy-rmw-cyclonedds-cpp       
+# install pick-ik from moveit
 sudo apt install ros-jazzy-pick-ik
+# install gdb, needed for move_group
+sudo apt install gdb
 
 pip3 install torch torchvision torchaudio --break-system-packages
 pip3 install -r /home/ws/src/yolo_ros/requirements.txt
