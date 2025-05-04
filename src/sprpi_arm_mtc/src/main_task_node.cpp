@@ -74,6 +74,8 @@ private:
     std::shared_ptr<mtc::solvers::CartesianPath> cartesian_planner_;
 
 	std::set<std::string> previous_object_ids_;
+
+    moveit::planning_interface::PlanningSceneInterface psi_;
 };
 
 SprpiMainTaskNode::SprpiMainTaskNode(const rclcpp::NodeOptions& options)
@@ -143,7 +145,7 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 	collision_objects.reserve(msg->detections.size() + 1);
 
     std::set<std::string> attached_object_ids;
-    for (const auto &attached : psi.getAttachedObjects()) {
+    for (const auto &attached : psi_.getAttachedObjects()) {
         attached_object_ids.insert(attached.first);
     }
 
@@ -189,7 +191,7 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
     }
 
     std::set<std::string> previous_object_ids;
-    for (const auto &previous_objects : psi.getObjects()) {
+    for (const auto &previous_objects : psi_.getObjects()) {
         previous_object_ids.insert(previous_objects.first);
     }
 
@@ -205,10 +207,10 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
 									previous_object_ids.begin(), 	previous_object_ids.end(),
 									std::back_inserter(missing_ids));
     RCLCPP_INFO(LOGGER, "Removing %ld objects from scene", missing_ids.size());
-	psi.removeCollisionObjects(missing_ids);
+	psi_.removeCollisionObjects(missing_ids);
 
     RCLCPP_INFO(LOGGER, "Detected %ld objects, applying to scene...", collision_objects.size());
-    if (!psi.applyCollisionObjects(collision_objects)) {
+    if (!psi_.applyCollisionObjects(collision_objects)) {
 		RCLCPP_ERROR(LOGGER, "Failed to apply collision objects");
 	}
 
