@@ -70,6 +70,19 @@ def generate_launch_description():
         ],
         arguments=['--ros-args', '--log-level', 'error']
     )
+    depth_camera_yolo_throttle = Node(
+        package="topic_tools",
+        executable="throttle",
+        name="depth_camera_throttle",
+        output="log",
+        arguments=[
+            "messages",
+            "/depth_camera/image_raw",
+            "1.0",
+            "/depth_camera/image_raw_yolo_throttle",
+            '--ros-args', '--log-level', 'error'
+        ]
+    )
     strawberry_object_tracking_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -84,7 +97,7 @@ def generate_launch_description():
                 "launch",
                 "strawberry_object_tracking.pt"
             ),
-            "input_image_topic": "/depth_camera/image_rect",
+            "input_image_topic": "/depth_camera/image_raw_yolo_throttle",
             "target_frame": "depth_camera",
             "image_reliability": "2",
             "depth_image_reliability": "2",
@@ -247,6 +260,7 @@ def generate_launch_description():
         declare_debug_arg,
         depth_camera_launch,
         depth_camera_throttle,
+        depth_camera_yolo_throttle,
         depth_camera_image_rect,
         mirror_camera_delay,
         depth_anything_launch,
