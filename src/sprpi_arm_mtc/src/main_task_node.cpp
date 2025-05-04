@@ -139,7 +139,6 @@ void SprpiMainTaskNode::initPlanners()
 
 void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionArray::SharedPtr msg)
 {   
-    moveit::planning_interface::PlanningSceneInterface psi;
     std::vector<moveit_msgs::msg::CollisionObject> collision_objects;
 	std::set<std::string> current_object_ids;
 	collision_objects.reserve(msg->detections.size() + 1);
