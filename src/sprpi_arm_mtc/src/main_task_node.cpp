@@ -176,11 +176,11 @@ void SprpiMainTaskNode::depthDetectionsCallback(const yolo_msgs::msg::DetectionA
         object.primitive_poses[1].orientation.x= 0.0;
         object.primitive_poses[1].orientation.y= 0.0;
         object.primitive_poses[1].orientation.z= 0.0;
-        pose.orientation.w= -0.7071;
+        pose.orientation.w= 0.7071;
         pose.orientation.x= 0.7071;
         pose.orientation.y= 0.0;
         pose.orientation.z= 0.0;
-        pose.position.y= 0.05;
+        pose.position.y= -0.07;
 
 		object.pose = pose;
 
@@ -237,8 +237,9 @@ void SprpiMainTaskNode::mirrorDetectionsCallback(const yolo_msgs::msg::Detection
 		if (doTask()) {
             arm_states_.is_picking = false;
             arm_states_.is_infront_of_mirror = false;
-            arm_states_.picked_object = "";
+            psi_.removeCollisionObjects(std::vector<std::string>{arm_states_.picked_object});
             previous_object_ids_.erase(arm_states_.picked_object);
+            arm_states_.picked_object = "";
         }
 	}
 }
@@ -263,6 +264,7 @@ void SprpiMainTaskNode::loopCallback()
 
 mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
 {
+
     initPlanners();
 	
     mtc::Task task;
@@ -287,6 +289,13 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
     stage_default_position->setGroup(arm_group_name_);
     stage_default_position->setGoal("Default");
     task.add(std::move(stage_default_position));
+
+    auto objects = psi_.getObjects({object_id});
+    if (objects.find(object_id) == objects.end()) {
+        RCLCPP_ERROR_STREAM(LOGGER, "Object with ID '" << object_id << "' not found in planning scene.");
+        return task;
+    }
+    moveit_msgs::msg::CollisionObject object = objects.at(object_id);
 
     auto stage_open_hand = std::make_unique<mtc::stages::MoveTo>("open hand", interpolation_planner_);
     stage_open_hand->setGroup(hand_group_name_);
@@ -325,7 +334,6 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
         }
     
         {
-          moveit::planning_interface::PlanningSceneInterface psi;
           // Sample grasp pose
           auto stage = std::make_unique<mtc::stages::GenerateGraspPose>("generate grasp pose");
           stage->properties().configureInitFrom(mtc::Stage::PARENT);
@@ -341,8 +349,8 @@ mtc::Task SprpiMainTaskNode::createPickTask(const std::string object_id)
                                 Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitZ());
           grasp_frame_transform.linear() = q.matrix();
           grasp_frame_transform.translation().z() = 0.1;
-          std::double_t object_height = psi.getObjects({object_id}).at(object_id).primitives[0].dimensions[2];
-          grasp_frame_transform.translation().x() = -((object_height+0.06)*0.5)-0.05;
+          std::double_t object_height = object.primitives[0].dimensions[2];
+          grasp_frame_transform.translation().x() = -((object_height+0.06)*0.5);
     
             // Compute IK
           auto wrapper =
