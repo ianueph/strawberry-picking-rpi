@@ -60,7 +60,7 @@ The system combines visual perception with a robotic arm to locate and pick stra
 
 ### Software
 
-- A host machine capable of running Docker
+- RaspberryPi OS
 - ROS 2 Jazzy (inside the dev container)
 - Git Bash or similar terminal
 
