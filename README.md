@@ -66,7 +66,7 @@ After setup and connecting all hardware:
     ```bash
     ros2 launch sprpi_arm_bringup main_launch.launch.py
     ```
-> **Note:** Ensure you have X11 forwarding set up properly if running GUI apps like RViz2 or libcamera viewer. This is handled via mounted volumes and environment variables in `devcontainer.json`.
+> **Note:** Ensure you have X11 forwarding set up properly if running GUI apps like RViz2. This is handled via mounted volumes and environment variables in `devcontainer.json`.
 
 ---
 
