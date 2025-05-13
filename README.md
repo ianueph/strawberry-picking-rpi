@@ -63,12 +63,24 @@ After setup and connecting all hardware:
 
 1. Upload YOLO Model Weights
 
-Before launching the robot system, ensure the required YOLOv8 model weights are available. Place the following files in the specified directory:
+    Before launching the robot system, ensure the required YOLOv8 model weights are available. Place the following files in the specified directory:
 
-| Model File | Purpose                      | Target Directory                                        |
-|------------|------------------------------|---------------------------------------------------------|
-| `strawberry_object_tracking.pt` | For object detection and tracking | `src/yolo_ros/yolo_bringup/launch/` |
-| `strawberry_image_class.pt`     | For image classification          | `src/yolo_ros/yolo_bringup/launch/` |
+    ```bash
+    src/
+    └── yolo_ros/
+        ├── ...
+        ├── yolo_bringup/
+        │   ├── launch/
+        │   │   ├── strawberry-object-tracking.pt
+        │   │   ├── strawberry-image-class.pt
+        │   │   └── ...
+        │   └── ...
+        ├── yolo_msgs/
+        │   └── ...
+        ├── yolo_ros/
+        │   └── ...
+        └── ...
+    ```
 
 1. Grant access to the Arduino serial device:
 
