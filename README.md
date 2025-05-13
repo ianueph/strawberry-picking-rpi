@@ -6,9 +6,40 @@ This project implements an autonomous robot arm capable of perceiving and pickin
 
 The system combines visual perception with a robotic arm to locate and pick strawberries in a structured environment. It uses ROS 2 Jazzy for coordination, Docker for containerized development, and a combination of Raspberry Pi and Arduino for hardware control.
 
-<p align="center">
-  <img src="media/system%20overview.drawio.png" alt="System Overview" />
-</p>
+<div align="center">
+  <table>
+    <thead>
+      <tr>
+        <th>Hardware Overview</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><img src="media/system%20overview.drawio.png" alt="System Overview" /></td>
+      </tr>
+    </tbody>
+  </table>
+  </p/>
+</div>
+
+<div align="center">
+  <table>
+    <thead>
+      <tr>
+        <th>Top</th>
+        <th>Front</th>
+        <th>Inside</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><img src="media/top_view.png" alt="Top view image" width="250" /></td>
+        <td><img src="media/front_view.png" alt="Front view image" width="250" /></td>
+        <td><img src="media/inside_view.png" alt="Inside view image" width="250" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Demo Videos
 
