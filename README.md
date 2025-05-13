@@ -1,4 +1,4 @@
-# Strawberry Picking Robot (Raspberry Pi)
+# Strawberry Picking Robot Arm
 
 This project implements an autonomous robot arm capable of perceiving and picking strawberries along a ridgeline using a Raspberry Pi and computer vision.
 
