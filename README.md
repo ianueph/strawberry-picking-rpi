@@ -27,18 +27,27 @@ The system combines visual perception with a robotic arm to locate and pick stra
 
 ## Installation
 
-The development environment is containerized using a devcontainer.
+### Prerequisites
+
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- Docker installed and running on your system
+
+### Steps
 
 1. Clone the repository:
-
     ```bash
     git clone https://github.com/ianueph/strawberry-picking-rpi.git
     cd strawberry-picking-rpi
     ```
 
-2. Open the project in Visual Studio Code with the **Dev Containers** extension installed.
+2. Open the project folder in VS Code.
 
-3. The devcontainer will automatically install all required dependencies when it starts.
+3. When prompted by VS Code, **"Reopen in Container"**.
+
+4. The container will build and install all dependencies automatically via:
+   - `installations.sh`
+   - `postCreateCommand.sh`
 
 ---
 
