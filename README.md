@@ -10,7 +10,7 @@ The system combines visual perception with a robotic arm to locate and pick stra
 
 | Not damaged, Successful Pick | Not damaged, Partially Successful Pick | Not damaged, Unuccessful Pick | Damaged, Successful Pick |
 |------------------------------|----------------------------------------|-------------------------------|--------------------------|
-| [![Not damaged, Successful Pick](https://i.ytimg.com/vi/FgwHGqu-LLM/hqdefault.jpg)](https://www.youtube.com/shorts/Jc2jJJqsEMs) | [![Arm](https://i.ytimg.com/vi/nUUJdWZODPo/hqdefault.jpg)](https://www.youtube.com/shorts/nUUJdWZODPo) | [![Pipeline](https://i.ytimg.com/vi/5XrlYmzagXs/hqdefault.jpg)](https://www.youtube.com/shorts/5XrlYmzagXs) | [![BTS](https://i.ytimg.com/vi/FgwHGqu-LLM/hqdefault.jpg)](https://www.youtube.com/shorts/FgwHGqu-LLM) |
+| [![Not damaged, Successful Pick](https://i.ytimg.com/vi/Jc2jJJqsEMs/hqdefault.jpg)](https://www.youtube.com/shorts/Jc2jJJqsEMs) | [![Arm](https://i.ytimg.com/vi/nUUJdWZODPo/hqdefault.jpg)](https://www.youtube.com/shorts/nUUJdWZODPo) | [![Pipeline](https://i.ytimg.com/vi/5XrlYmzagXs/hqdefault.jpg)](https://www.youtube.com/shorts/5XrlYmzagXs) | [![BTS](https://i.ytimg.com/vi/FgwHGqu-LLM/hqdefault.jpg)](https://www.youtube.com/shorts/FgwHGqu-LLM) |
 
 ---
 
